@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1014121461977",
+    "project_id": "foodstache-be8fb",
+    "storage_bucket": "foodstache-be8fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014121461977:android:c9fe2a613897dff0e4a6c8",
+        "android_client_info": {
+          "package_name": "com.example.foodstache"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014121461977-ricidpr41b78dd6b8o9lnqentuj1ipd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK2CNNoIg3uuApayPCJJpzFg0cpTpXMDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014121461977-ricidpr41b78dd6b8o9lnqentuj1ipd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
