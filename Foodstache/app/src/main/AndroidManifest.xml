@@ -14,6 +14,10 @@
         android:theme="@style/Theme.Foodstache"
         tools:targetApi="31">
         <activity
+            android:name=".BottomNavigation"
+            android:exported="false"
+            android:label="@string/title_activity_bottom_navigation" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
