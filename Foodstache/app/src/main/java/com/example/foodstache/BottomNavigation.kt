@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.foodstache.databinding.ActivityBottomNavigationBinding
+//import com.example.foodstache.databinding.ActivityBottomNavigationBinding
 
 class BottomNavigation : AppCompatActivity() {
 
@@ -50,9 +50,8 @@ class BottomNavigation : AppCompatActivity() {
         //setContentView(binding.root)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        textView = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        
 
        /* val navView: BottomNavigationView = binding.navView
 
