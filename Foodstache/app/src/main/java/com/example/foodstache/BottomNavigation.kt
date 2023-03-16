@@ -2,6 +2,8 @@ package com.example.foodstache
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -91,5 +93,23 @@ class BottomNavigation : AppCompatActivity() {
         // check on start of app
         checkUserStatus()
         super.onStart()
+    }
+
+    /* inflate options menu */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // inflating enu
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    /* handle menu item clicks */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // get item id
+        val id : Int = item.itemId
+        if (id == R.id.action_logout) {
+            firebaseAuth.signOut()
+            checkUserStatus()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

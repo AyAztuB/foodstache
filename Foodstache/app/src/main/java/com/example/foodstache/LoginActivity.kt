@@ -123,6 +123,11 @@ class LoginActivity : AppCompatActivity() {
         // show progressDialog
         progressDialog.setMessage("Sending email...")
         progressDialog.show()
+        if (email == "") {
+            progressDialog.dismiss()
+            Toast.makeText(this@LoginActivity, "Failed...", Toast.LENGTH_SHORT).show()
+            return
+        }
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener {task ->
             progressDialog.dismiss()
             if(task.isSuccessful) {
