@@ -18,8 +18,8 @@
             android:exported="false" />
         <activity
             android:name=".BottomNavigation"
-            android:exported="true"
-            android:label="@string/title_activity_bottom_navigation" >
+            android:exported="true" >
+            <!--android:label="@string/title_activity_bottom_navigation"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
