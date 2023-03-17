@@ -14,12 +14,15 @@
         android:theme="@style/Theme.Foodstache"
         tools:targetApi="31">
         <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddPicturesActivity"
             android:exported="false" />
         <activity
             android:name=".BottomNavigation"
             android:exported="true"
-            android:label="@string/title_activity_bottom_navigation" >
+            android:label="@string/title_activity_bottom_navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
