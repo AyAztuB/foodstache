@@ -9,13 +9,26 @@ import android.text.InputType
 import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.ActionBar
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 // TODO : change deprecated ProgressDialog to ProgressBar
 
+const val RC_SIGN_IN = 100
+
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var mGoogleSignInClient : GoogleSignInClient
 
     // views
     private lateinit var mEmailEt : TextInputEditText
@@ -23,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mLoginBtn : Button
     private lateinit var mNotHaveAccountTv : TextView
     private lateinit var mRecoverPassTv : TextView
+    private lateinit var mGoogleLoginBtn : SignInButton
 
     // declare an instance of FirebaseAuth
     private lateinit var mAuth : FirebaseAuth
@@ -41,6 +55,14 @@ class LoginActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setDisplayShowHomeEnabled(true)
 
+        // before mAuth
+        // configure google sign in
+        var gso : GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
         // in the onCreate() method, initialize the FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance()
 
@@ -50,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
         mLoginBtn = findViewById(R.id.loginBtn)
         mNotHaveAccountTv = findViewById(R.id.not_have_accountTv)
         mRecoverPassTv = findViewById(R.id.recoverPassTV)
+        mGoogleLoginBtn = findViewById(R.id.googleLoginBtn)
 
         // init progressDialog
         progressDialog = ProgressDialog(this)
@@ -79,6 +102,13 @@ class LoginActivity : AppCompatActivity() {
         // recover password TextView click
         mRecoverPassTv.setOnClickListener {
             showRecoverPasswordDialog()
+        }
+
+        // handle google login btn click
+        mGoogleLoginBtn.setOnClickListener {
+            // begin google login process
+            val signInIntent : Intent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
 
@@ -176,5 +206,46 @@ class LoginActivity : AppCompatActivity() {
         // onBackPressed() // DEPRECATED
         finish() // go to previous activity
         return super.onSupportNavigateUp()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // result return from launching the intent from GoogleSignInApi.getSignInIntent(...)
+        if(requestCode == RC_SIGN_IN) {
+            val task : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // google sign in was successful, authenticate with firebase
+                val account : GoogleSignInAccount = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account)
+            }
+            catch(e : ApiException) {
+                // Google sign in failed, update UI appropriately
+                Toast.makeText(this@LoginActivity, ""+e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account : GoogleSignInAccount) {
+        val credential : AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if(task.isSuccessful) {
+                    // Sign in success, update UI with the signed in user's information
+                    val user: FirebaseUser = mAuth.currentUser!!
+                    // show user email in toast
+                    Toast.makeText(this@LoginActivity, ""+user.email, Toast.LENGTH_SHORT).show()
+                    // go to profile activity after logged in
+                    startActivity(Intent(this@LoginActivity, BottomNavigation::class.java))
+                    finish()
+                }
+                else {
+                    // if sign in failed, display a message to the user
+                    Toast.makeText(this@LoginActivity, "Login failed...", Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener { e : Exception ->
+                // get and show error message
+                Toast.makeText(this@LoginActivity, ""+e.message, Toast.LENGTH_SHORT).show()
+            }
     }
 }

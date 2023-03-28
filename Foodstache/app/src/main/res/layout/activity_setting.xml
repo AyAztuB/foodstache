@@ -102,7 +102,7 @@
                         android:layout_centerVertical="true"
                         android:text="Night Mode"
                         android:textColor="#FFFFFF"
-                        android:textStye="bold"
+                        android:textStyle="bold"
                         android:layout_toEndOf="@+id/nightModeIcon"/>
 
                     <Switch
