@@ -76,6 +76,7 @@ class RegisterActivity : AppCompatActivity() {
         // handle login TextView click listener
         mHaveAccountTv.setOnClickListener {
             startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            finish()
         }
     }
 
@@ -90,7 +91,7 @@ class RegisterActivity : AppCompatActivity() {
                     progressDialog.dismiss()
                     val user : FirebaseUser = mAuth.currentUser!!
                     Toast.makeText(this@RegisterActivity, "Registered...\n"+user.email, Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@RegisterActivity, ProfileActivity::class.java))
+                    startActivity(Intent(this@RegisterActivity, BottomNavigation::class.java))
                     finish()
                 }
                 else {
