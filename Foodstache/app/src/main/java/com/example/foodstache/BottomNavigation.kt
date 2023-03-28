@@ -8,10 +8,15 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.foodstache.Fragments.ChatFragment
+import com.example.foodstache.Fragments.HomeFragment
+import com.example.foodstache.Fragments.RecetteFragment
+import com.example.foodstache.Fragments.Video1Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -19,8 +24,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class BottomNavigation : AppCompatActivity() {
 
-    //private lateinit var binding: ActivityBottomNavigationBinding
-    private lateinit var textView: TextView
+    internal var selectedFragment: Fragment? = null
 
     // Firebase Auth
     private lateinit var firebaseAuth: FirebaseAuth
@@ -28,27 +32,26 @@ class BottomNavigation : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_home -> {
-                textView.setText("Home")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment=HomeFragment()
             }
             R.id.nav_videos-> {
-                textView.setText("Video")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment=Video1Fragment()
             }
             R.id.nav_add -> {
-                textView.setText("Add")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_recette -> {
-                textView.setText("Recette")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment=RecetteFragment()
             }
             R.id.nav_chat -> {
-                textView.setText("Chat")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment=ChatFragment()
             }
         }
 
+        if (selectedFragment!=null)
+        {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment!!).commit()
+        }
         false
     }
 
@@ -62,9 +65,9 @@ class BottomNavigation : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        textView = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
        /* val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_bottom_navigation)
