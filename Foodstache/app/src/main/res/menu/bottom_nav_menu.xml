@@ -8,21 +8,21 @@
 
     <item
         android:id="@+id/nav_videos"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/video"
         android:title="Videos" />
 
     <item
         android:id="@+id/nav_add"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/add"
         android:title="Add" />
 
     <item
         android:id="@+id/nav_recette"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/recette"
         android:title="Recettes" />
     <item
         android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/chat"
         android:title="Chat" />
 
 </menu>

@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class BottomNavigation : AppCompatActivity() {
 
-    internal var selectedFragment: Fragment? = null
+
 
     // Firebase Auth
     private lateinit var firebaseAuth: FirebaseAuth
@@ -29,26 +29,27 @@ class BottomNavigation : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_home -> {
-                selectedFragment=HomeFragment()
+                MoveToFragment(HomeFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_videos-> {
-                selectedFragment=VideoFragment()
+                MoveToFragment(VideoFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_add -> {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_recette -> {
-                selectedFragment=RecetteFragment()
+                MoveToFragment(RecetteFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_chat -> {
-                selectedFragment=ChatFragment()
+                MoveToFragment(ChatFragment())
+                return@OnNavigationItemSelectedListener true
             }
         }
 
-        if (selectedFragment!=null)
-        {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment!!).commit()
-        }
+
         false
     }
 
@@ -64,7 +65,6 @@ class BottomNavigation : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
        /* val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_bottom_navigation)
@@ -79,6 +79,12 @@ class BottomNavigation : AppCompatActivity() {
         navView.setupWithNavController(navController)*/
     }
 
+    private fun MoveToFragment(fragment: Fragment)
+    {
+        val fragmentTrans = supportFragmentManager.beginTransaction()
+        fragmentTrans.replace(R.id.fragment_container, fragment)
+        fragmentTrans.commit()
+    }
     private fun checkUserStatus() {
         // get current user
         val user : FirebaseUser? = firebaseAuth.currentUser
