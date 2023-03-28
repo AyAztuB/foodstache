@@ -13,10 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.foodstache.Fragments.ChatFragment
-import com.example.foodstache.Fragments.HomeFragment
-import com.example.foodstache.Fragments.RecetteFragment
-import com.example.foodstache.Fragments.Video1Fragment
+import com.example.foodstache.Fragments.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -35,7 +32,7 @@ class BottomNavigation : AppCompatActivity() {
                 selectedFragment=HomeFragment()
             }
             R.id.nav_videos-> {
-                selectedFragment=Video1Fragment()
+                selectedFragment=VideoFragment()
             }
             R.id.nav_add -> {
                 return@OnNavigationItemSelectedListener true
