@@ -43,9 +43,9 @@
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/nav_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
                 android:background="?android:attr/windowBackground"
-                app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/bottom_nav_menu" />
 
         </androidx.appcompat.widget.Toolbar>
