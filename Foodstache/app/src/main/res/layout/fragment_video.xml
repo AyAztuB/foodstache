@@ -15,7 +15,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="19dp"
-            android:drawableLeft="@drawable/ic_dashboard_black_24dp"
+            android:drawableLeft="@drawable/search"
             android:hint="Search...">
 
         </EditText>

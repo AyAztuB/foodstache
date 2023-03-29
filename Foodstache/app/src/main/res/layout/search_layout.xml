@@ -54,13 +54,14 @@
                 android:textSize="22sp"
                 android:textStyle="bold"/>
             <Button
+                android:id="@+id/follow_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
                 android:paddingStart="30dp"
                 android:layout_gravity="center"
                 android:background="@drawable/round_back_secondary_100"
-                android:text="Edit Profile"
+                android:text="Follow"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:paddingEnd="30dp"
