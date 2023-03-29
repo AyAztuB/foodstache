@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.VideoFragment">
 
     <RelativeLayout
+        android:id="@+id/app_bar_layout_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,4 +23,12 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_layout_search">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>
