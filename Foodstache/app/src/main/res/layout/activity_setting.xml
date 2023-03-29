@@ -12,11 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/back_arrow_btn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/back_btn"
-            android:padding="14dp"/>
+            android:padding="14dp">
+
+        </ImageButton>
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Meline la Queen"
+                android:text="Meline la draQueen"
                 android:textColor="#FFFFFFFF"
                 android:textSize="22sp"
                 android:textStyle="bold"/>

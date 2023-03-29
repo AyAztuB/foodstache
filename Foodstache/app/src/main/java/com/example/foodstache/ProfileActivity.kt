@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import com.example.foodstache.Fragments.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -18,6 +21,8 @@ class ProfileActivity : AppCompatActivity() {
     // views
     private lateinit var mProfileTv : TextView
 
+    private lateinit var settingsBtn : ImageButton
+    private lateinit var backBtn : ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -31,6 +36,20 @@ class ProfileActivity : AppCompatActivity() {
 
         // init views
         mProfileTv = findViewById(R.id.profileTv)
+
+        settingsBtn = findViewById(R.id.options_btn)
+
+        settingsBtn.setOnClickListener {
+            // start LoginActivity
+            startActivity(Intent(this@ProfileActivity, SettingActivity::class.java))
+        }
+
+        backBtn = findViewById(R.id.back_btn)
+
+        backBtn.setOnClickListener {
+            // start LoginActivity
+            startActivity(Intent(this@ProfileActivity, BottomNavigation::class.java))
+        }
     }
 
     private fun checkUserStatus() {

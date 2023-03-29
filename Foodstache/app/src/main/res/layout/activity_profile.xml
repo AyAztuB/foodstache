@@ -36,23 +36,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageButton
+                    android:id="@+id/back_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/arrow"
+                    style="?android:attr/buttonBarButtonStyle">
+
+                </ImageButton>
 
                 <TextView
                     android:id="@+id/profile_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="username"
                     android:textStyle="bold"
                     android:textSize="18dp"/>
 
-                <ImageView
-                    android:id="@+id/options_view"
+                <ImageButton
+                    android:id="@+id/options_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/settings"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    />
+                    style="?android:attr/buttonBarButtonStyle">
+
+                </ImageButton>
+
             </RelativeLayout>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
