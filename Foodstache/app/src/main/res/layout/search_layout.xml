@@ -45,6 +45,7 @@
                 android:src="@drawable/baseline_people_24"/>
 
             <TextView
+                android:id="@+id/user_name_id_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

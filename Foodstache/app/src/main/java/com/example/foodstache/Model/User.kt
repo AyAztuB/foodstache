@@ -3,6 +3,7 @@ package com.example.foodstache.Model
 class User {
 
     private var username : String = ""
+    private var fullName : String = ""
     private var bio : String = ""
     private var nbFollowing : String = ""
     private var nbFollowers : String = ""
@@ -12,7 +13,7 @@ class User {
 
     constructor()
 
-    constructor(username : String, bio : String, nbFollowing : String, nbFollowers : String, nbPost : String, pp : String, userId: String){
+    constructor(username : String, bio : String, nbFollowing : String, nbFollowers : String, nbPost : String, pp : String, userId: String, fullName : String ){
         this.username = username
         this.bio = bio
         this.nbFollowing = nbFollowing
@@ -20,6 +21,7 @@ class User {
         this.nbPost = nbPost
         this.pp = pp
         this.userId = userId
+        this.fullName = fullName
     }
 
     fun getUsername() : String{
@@ -75,6 +77,14 @@ class User {
 
     fun setUserId(userId: String){
         this.userId= userId
+    }
+
+    fun getFullName(): String {
+        return fullName
+    }
+
+    fun setFullName(fullName : String){
+        this.fullName = fullName
     }
 
 
