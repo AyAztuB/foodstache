@@ -16,4 +16,6 @@
     <color name="private_account">#E6A326</color>
     <color name="security">#D95F69</color>
 
+    <color name="ic_launcher_background">#FFFFFF</color>
+
 </resources>

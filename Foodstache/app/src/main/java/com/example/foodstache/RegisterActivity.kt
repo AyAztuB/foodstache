@@ -12,6 +12,8 @@ import androidx.appcompat.app.ActionBar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO : change deprecated ProgressDialog to ProgressBar
 
@@ -90,6 +92,25 @@ class RegisterActivity : AppCompatActivity() {
                     // Sign in success, dismiss dialog and start profile activity
                     progressDialog.dismiss()
                     val user : FirebaseUser = mAuth.currentUser!!
+
+                    // get user email and uid from auth
+                    val _email : String = user.email!!
+                    val uid : String = user.uid
+                    // when user is registered store info in firebase realtime database too using HashMap
+                    val hashMap : HashMap<String, String> = HashMap()
+                    // put info in hashMap
+                    hashMap["email"] = _email
+                    hashMap["uid"] = uid
+                    hashMap["name"] = "" // Will add later (e.g. edit profile)
+                    hashMap["phone"] = "" // Will add later (e.g. edit profile)
+                    hashMap["image"] = "" // Will add later (e.g. edit profile)
+                    // firebase database instance
+                    val database : FirebaseDatabase = FirebaseDatabase.getInstance()
+                    // path to store user data named "Users"
+                    val reference : DatabaseReference = database.getReference("Users")
+                    // put data within hashmap in database
+                    reference.child(uid).setValue(hashMap)
+
                     Toast.makeText(this@RegisterActivity, "Registered...\n"+user.email, Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this@RegisterActivity, BottomNavigation::class.java))
                     finish()
