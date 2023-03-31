@@ -78,6 +78,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onStart()
     }
 
+    /* NOT USED
     /* inflate options menu */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // inflating enu
@@ -95,4 +96,5 @@ class ProfileActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    */
 }

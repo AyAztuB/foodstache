@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -91,6 +92,7 @@ class BottomNavigation : AppCompatActivity() {
         super.onStart()
     }
 
+    /* NOT USED
     /* inflate options menu */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // inflating enu
@@ -108,4 +110,5 @@ class BottomNavigation : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    */
 }
