@@ -101,9 +101,14 @@ class RegisterActivity : AppCompatActivity() {
                     // put info in hashMap
                     hashMap["email"] = _email
                     hashMap["uid"] = uid
+                    hashMap["username"] = "" // Will add later (e.g. edit profile)
                     hashMap["name"] = "" // Will add later (e.g. edit profile)
                     hashMap["phone"] = "" // Will add later (e.g. edit profile)
                     hashMap["image"] = "" // Will add later (e.g. edit profile)
+                    hashMap["bio"] = "" // Will add later (e.g. edit profile)
+                    hashMap["nbFollowing"] = "0"
+                    hashMap["nbFollowers"] = "0"
+                    hashMap["nbPost"] = "0"
                     // firebase database instance
                     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
                     // path to store user data named "Users"

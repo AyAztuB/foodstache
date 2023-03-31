@@ -236,23 +236,29 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed in user's information
                     val user: FirebaseUser = mAuth.currentUser!!
 
-                    // get user email and uid from auth
-                    val _email : String = user.email!!
-                    val uid : String = user.uid
-                    // when user is registered store info in firebase realtime database too using HashMap
-                    val hashMap : HashMap<String, String> = HashMap()
-                    // put info in hashMap
-                    hashMap["email"] = _email
-                    hashMap["uid"] = uid
-                    hashMap["name"] = "" // Will add later (e.g. edit profile)
-                    hashMap["phone"] = "" // Will add later (e.g. edit profile)
-                    hashMap["image"] = "" // Will add later (e.g. edit profile)
-                    // firebase database instance
-                    val database : FirebaseDatabase = FirebaseDatabase.getInstance()
-                    // path to store user data named "Users"
-                    val reference : DatabaseReference = database.getReference("Users")
-                    // put data within hashmap in database
-                    reference.child(uid).setValue(hashMap)
+                    if (task.result.additionalUserInfo!!.isNewUser) {
+                        // get user uid from auth
+                        val uid : String = user.uid
+                        // when user is registered store info in firebase realtime database too using HashMap
+                        val hashMap : HashMap<String, String> = HashMap()
+                        // put info in hashMap
+                        hashMap["email"] = user.email!!
+                        hashMap["uid"] = uid
+                        hashMap["username"] = "" // Will add later (e.g. edit profile)
+                        hashMap["name"] = "" // Will add later (e.g. edit profile)
+                        hashMap["phone"] = "" // Will add later (e.g. edit profile)
+                        hashMap["image"] = "" // Will add later (e.g. edit profile)
+                        hashMap["bio"] = "" // Will add later (e.g. edit profile)
+                        hashMap["nbFollowing"] = "0"
+                        hashMap["nbFollowers"] = "0"
+                        hashMap["nbPost"] = "0"
+                        // firebase database instance
+                        val database : FirebaseDatabase = FirebaseDatabase.getInstance()
+                        // path to store user data named "Users"
+                        val reference : DatabaseReference = database.getReference("Users")
+                        // put data within hashmap in database
+                        reference.child(uid).setValue(hashMap)
+                    }
 
                     // show user email in toast
                     Toast.makeText(this@LoginActivity, ""+user.email, Toast.LENGTH_SHORT).show()
