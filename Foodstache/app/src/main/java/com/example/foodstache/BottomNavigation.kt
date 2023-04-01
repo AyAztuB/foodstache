@@ -38,6 +38,7 @@ class BottomNavigation : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_add -> {
+                startActivity(Intent(this, AddPicturesActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_recette -> {
