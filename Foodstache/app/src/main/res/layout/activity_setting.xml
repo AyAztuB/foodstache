@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/primary"
-    tools:context=".SettingActivity">
+    tools:context=".SettingActivity"
+    android:id="@+id/background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Meline la draQueen"
+                android:text="Pseudo"
                 android:textColor="#FFFFFFFF"
                 android:textSize="22sp"
                 android:textStyle="bold"/>
@@ -110,7 +111,8 @@
                         android:textStyle="bold"
                         android:layout_toEndOf="@+id/nightModeIcon"/>
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <Switch
+                        android:id="@+id/Switchbtn"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -144,7 +146,7 @@
                         android:textStyle="bold"
                         android:layout_toEndOf="@+id/notificationIcon"/>
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <Switch
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -178,7 +180,7 @@
                         android:textStyle="bold"
                         android:layout_toEndOf="@+id/privateAccountIcon"/>
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <Switch
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
