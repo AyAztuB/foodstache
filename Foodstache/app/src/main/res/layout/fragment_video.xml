@@ -5,30 +5,47 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.VideoFragment">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/image_search_bar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/search" />
 
-        <EditText
-            android:id="@+id/search_bar_text"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="15dp"
-            android:layout_toEndOf="@+id/image_search_bar"
-            android:hint="Search...">
+            android:layout_height="50dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="6dp">
 
-        </EditText>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/image_search_bar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/search">
+
+                </ImageView>
+
+                <EditText
+                    android:id="@+id/search_view_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/image_search_bar"
+                    android:hint="Search...">
+
+                </EditText>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_search"

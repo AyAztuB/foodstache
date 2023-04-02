@@ -19,8 +19,8 @@ class UserAdapter (private var mContext : Context,
                    private var isFragment : Boolean = false) : RecyclerView.Adapter<UserAdapter.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(mContext).inflate(R.layout.search_layout, parent, false)
-        return ViewHolder(view)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.search_layout, parent, false)
+        return UserAdapter.ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
