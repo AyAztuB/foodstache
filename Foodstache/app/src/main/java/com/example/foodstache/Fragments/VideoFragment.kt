@@ -46,7 +46,7 @@ class VideoFragment : Fragment() {
         userAdapter = context?.let{UserAdapter(it, mUser as ArrayList<User>, true)}
         recyclerView?.adapter = userAdapter
 
-
+        /***
         view.findViewById<View>(R.id.search_view_edit_text).addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 TODO("Not yet implemented")
@@ -60,7 +60,7 @@ class VideoFragment : Fragment() {
                 TODO("Not yet implemented")
             }
 
-        })
+        }) ***/
 
 
 
