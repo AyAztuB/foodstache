@@ -52,10 +52,10 @@ class SettingActivity : AppCompatActivity() {
         }
 
         // Dark Mode
-        var Switch = findViewById<Switch>(R.id.Switchbtn)
+        val Switch = findViewById<Switch>(R.id.Switchbtn)
 
         // To know if the user's phone is in dark mode then enable the switch
-        Switch.isChecked = resources.configuration.isNightModeActive
+        Switch.isChecked = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
         // set the switch to listen on checked change
         Switch.setOnCheckedChangeListener { _, isChecked ->
