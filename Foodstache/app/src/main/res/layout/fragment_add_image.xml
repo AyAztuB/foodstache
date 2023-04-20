@@ -13,6 +13,12 @@
         android:layout_height="250dp"
         android:scaleType="centerCrop"
         android:src="@drawable/empty_photo"/>
+    <Button
+        android:id="@+id/browse_btn_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Browse"/>
+
 
     <EditText
         android:id="@+id/add_image_description"

@@ -1,33 +1,53 @@
 package com.example.foodstache
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.webkit.MimeTypeMap
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
+import com.example.foodstache.Fragments.AddImageFragment
 import com.example.foodstache.Fragments.AddTabPageAdapter
+import com.example.foodstache.databinding.ActivityAddPicturesBinding
+import com.example.foodstache.databinding.FragmentAddImageBinding
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 
 class AddPicturesActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAddPicturesBinding
+    private lateinit var binding2 : FragmentAddImageBinding
+
+
+
     private lateinit var BackBtn : ImageButton
     private lateinit var AddBtn : ImageButton
-
-    private var myUrl =""
-    private var ImageUri: Uri?= null
-    private var StoragePostRef:StorageReference?=null
+    private lateinit var db : DatabaseReference
+    private lateinit var StoragePostRef:StorageReference
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_pictures)
 
+        binding2= FragmentAddImageBinding.inflate(layoutInflater)
+        binding= ActivityAddPicturesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         BackBtn = findViewById(R.id.add_back_arrow_btn)
+        AddBtn = findViewById(R.id.add_check_btn)
+        StoragePostRef=FirebaseStorage.getInstance().getReference("Uploads")
+        db=FirebaseDatabase.getInstance().getReference("Uploads")
+
         BackBtn.setOnClickListener {
             // start LoginActivity
             startActivity(Intent(this@AddPicturesActivity, BottomNavigation::class.java))
@@ -57,25 +77,28 @@ class AddPicturesActivity : AppCompatActivity() {
 
         })
 
-        StoragePostRef=FirebaseStorage.getInstance().reference.child("Posts")
 
-        AddBtn = findViewById(R.id.add_check_btn)
-        AddBtn.setOnClickListener { UploadPost() }
+        AddBtn.setOnClickListener {
+            UploadPost()
+            startActivity(Intent(this@AddPicturesActivity, BottomNavigation::class.java))
+        }
 
 
     }
 
     private fun UploadPost()
     {
-        when
-        {
-            ImageUri==null -> Toast.makeText(this, "Please select Post first", Toast.LENGTH_LONG)
-            else -> {
-                val fileRef= StoragePostRef!!.child(System.currentTimeMillis().toString())
-                var uploadTask:StorageTask<*>
-                uploadTask=fileRef.putFile(ImageUri!!)
+        val description=binding2.addImageDescription.text.toString()
+        val dbr=FirebaseDatabase.getInstance().reference
+        val id=dbr.push().key
+        val image= binding2.imageToAdd.imageAlpha
+        db.child(id.toString()).setValue(image, description)
+            .addOnSuccessListener {
+                binding2.imageToAdd.setImageBitmap(null)
+                binding2.addImageDescription.text.clear()
+                Toast.makeText(this, "image uploaded", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "no image selected", Toast.LENGTH_SHORT).show()
             }
-
-        }
     }
 }

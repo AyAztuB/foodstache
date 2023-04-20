@@ -12,6 +12,12 @@ import android.widget.ImageButton
 import com.example.foodstache.LoginActivity
 import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
+import com.example.foodstache.databinding.FragmentAddImageBinding
+import com.example.foodstache.databinding.FragmentHome2Binding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,10 +30,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment() {
+
+    private lateinit var db : DatabaseReference
+    private lateinit var binding : FragmentHome2Binding
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var profile_btn : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +51,20 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home2, container, false)
-        view?.findViewById<View>(R.id.image_profile_btn)?.setOnClickListener {
-            startActivity(Intent(this@HomeFragment.context, ProfileActivity::class.java))
-        }
+        binding= FragmentHome2Binding.inflate(inflater, container, false)
+        val root=binding.root
+        db= FirebaseDatabase.getInstance().getReference("Uploads")
+        /*var query=db.orderByChild("image")
+        query.addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+
+                }
+            }
+        })*/
+
         // Inflate the layout for this fragment
-        return view
+        return root
     }
 
     companion object {
