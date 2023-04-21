@@ -1,11 +1,14 @@
 package com.example.foodstache
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodstache.Fragments.ChatFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,6 +24,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var backBtn : ImageButton
 
     var receiverRoom: String? = null
     var senderRoom: String? = null
@@ -37,6 +41,11 @@ class ChatActivity : AppCompatActivity() {
 
         senderRoom = receiverUid + senderUid
         receiverRoom = senderUid + receiverUid
+
+        backBtn = findViewById(R.id.back_btn)
+        backBtn.setOnClickListener {
+            startActivity(Intent(this, BottomNavigation::class.java))
+        }
 
         supportActionBar?.title = name
 

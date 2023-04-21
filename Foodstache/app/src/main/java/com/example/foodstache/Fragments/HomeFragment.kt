@@ -54,6 +54,9 @@ class HomeFragment : Fragment() {
         binding= FragmentHome2Binding.inflate(inflater, container, false)
         val root=binding.root
         db= FirebaseDatabase.getInstance().getReference("Uploads")
+        binding.imageProfileBtn.setOnClickListener {
+            startActivity(Intent(this@HomeFragment.context, ProfileActivity::class.java))
+        }
         /*var query=db.orderByChild("image")
         query.addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
