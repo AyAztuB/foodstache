@@ -31,9 +31,6 @@ class AddPicturesActivity : AppCompatActivity() {
 
 
     private lateinit var BackBtn : ImageButton
-    private lateinit var AddBtn : ImageButton
-    private lateinit var db : DatabaseReference
-    private lateinit var StoragePostRef:StorageReference
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +41,6 @@ class AddPicturesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         BackBtn = findViewById(R.id.add_back_arrow_btn)
-        AddBtn = findViewById(R.id.add_check_btn)
-        StoragePostRef=FirebaseStorage.getInstance().getReference("Uploads")
-        db=FirebaseDatabase.getInstance().getReference("Uploads")
 
         BackBtn.setOnClickListener {
             // start LoginActivity
@@ -78,27 +72,7 @@ class AddPicturesActivity : AppCompatActivity() {
         })
 
 
-        AddBtn.setOnClickListener {
-            UploadPost()
-            startActivity(Intent(this@AddPicturesActivity, BottomNavigation::class.java))
-        }
-
-
     }
 
-    private fun UploadPost()
-    {
-        val description=binding2.addImageDescription.text.toString()
-        val dbr=FirebaseDatabase.getInstance().reference
-        val id=dbr.push().key
-        val image= binding2.imageToAdd.imageAlpha
-        db.child(id.toString()).setValue(image, description)
-            .addOnSuccessListener {
-                binding2.imageToAdd.setImageBitmap(null)
-                binding2.addImageDescription.text.clear()
-                Toast.makeText(this, "image uploaded", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "no image selected", Toast.LENGTH_SHORT).show()
-            }
-    }
+
 }

@@ -31,17 +31,6 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <ImageButton
-            android:id="@+id/add_check_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/check"
-            android:padding="14dp">
-
-        </ImageButton>
-
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout

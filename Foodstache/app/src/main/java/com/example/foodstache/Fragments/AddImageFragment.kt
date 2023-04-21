@@ -1,10 +1,15 @@
 package com.example.foodstache.Fragments
 
+import android.app.ProgressDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +20,23 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.foodstache.BottomNavigation
 import com.example.foodstache.R
 import com.example.foodstache.databinding.FragmentAddImageBinding
 import com.example.foodstache.databinding.FragmentHomeBinding
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import java.io.ByteArrayOutputStream
+import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +55,11 @@ class AddImageFragment : Fragment() {
     private lateinit var binding : FragmentAddImageBinding
     var sImage:String?=""
 
+    private var myUrl=""
+    private var imageUri: Uri?= null
+    private lateinit var db : DatabaseReference
+    private var storagePostRef:StorageReference?= null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +76,19 @@ class AddImageFragment : Fragment() {
     ): View? {
         binding= FragmentAddImageBinding.inflate(inflater, container, false)
         val root:View=binding.root
+        storagePostRef=FirebaseStorage.getInstance().reference.child("Posts Images")
+
         binding.browseBtnImage.setOnClickListener(){
             var myfileintent = Intent(Intent.ACTION_GET_CONTENT)
             myfileintent.setType("image/*")
             ActivityResultLauncher.launch(myfileintent)
         }
+
+        binding.uploadBtn.setOnClickListener {
+            UploadPost()
+            startActivity(Intent(this@AddImageFragment.context, BottomNavigation::class.java))
+        }
+
         // Inflate the layout for this fragment
         return root
     }
@@ -70,14 +100,16 @@ class AddImageFragment : Fragment() {
         {
             val uri= result.data!!.data
             try{
-                val inputStream= context?.contentResolver?.openInputStream(uri!!)
+                imageUri=uri
+                binding.imageToAdd.setImageURI(imageUri)
+                /*val inputStream= context?.contentResolver?.openInputStream(uri!!)
                 val myBitmap= BitmapFactory.decodeStream(inputStream)
                 val stream= ByteArrayOutputStream()
                 myBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val bytes= stream.toByteArray()
                 sImage= Base64.encodeToString(bytes,Base64.DEFAULT)
                 binding.imageToAdd.setImageBitmap(myBitmap)
-                inputStream!!.close()
+                inputStream!!.close()*/
                 Toast.makeText(context, "Image Selected", Toast.LENGTH_SHORT).show()
             } catch (ex:Exception){
                 Toast.makeText(context, ex.message.toString(), Toast.LENGTH_LONG).show()
@@ -85,7 +117,74 @@ class AddImageFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+    }
+    private fun UploadPost()
+    {
+        when{
+            imageUri==null->Toast.makeText(context, "please select an image first", Toast.LENGTH_LONG).show()
+
+            else->{
+                val progressDialog= ProgressDialog(this.context)
+                progressDialog.setTitle("New image")
+                progressDialog.setMessage("Please wait, we are adding your image")
+                progressDialog.show()
+
+                val fileref=storagePostRef!!.child(System.currentTimeMillis().toString()+".jpg")
+                var uploadTask:StorageTask<*>
+                uploadTask=fileref.putFile(imageUri!!)
+
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>>{ task->
+                    if (!task.isSuccessful){
+                        task.exception?.let {
+                            throw it
+                            progressDialog.dismiss()
+                        }
+                    }
+                    return@Continuation fileref.downloadUrl
+                }).addOnCompleteListener(OnCompleteListener<Uri>{task ->
+                    if (task.isSuccessful){
+                        val downloadUrl=task.result
+                        myUrl=downloadUrl.toString()
+
+                        val ref= FirebaseDatabase.getInstance().reference.child("Image")
+                        val postId= ref.push().key
+
+                        val userMap= HashMap<String, Any>()
+
+                        userMap["postId"]=postId!!
+                        userMap["description"]=binding.addImageDescription.text.toString().toLowerCase()
+                        userMap["user"]= FirebaseAuth.getInstance().currentUser!!.uid
+                        userMap["Image"]=myUrl
+
+                        ref.child(postId).updateChildren(userMap)
+
+                        Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
+
+                        val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
+                        startActivity(intent)
+                        progressDialog.dismiss()
+                    }
+                })
+            }
+        }
+        /*val description=binding.addImageDescription.text.toString()
+        db=FirebaseDatabase.getInstance().getReference("Uploads")
+        val dbr= FirebaseDatabase.getInstance().reference
+        val id=dbr.push().key
+        db.child(id.toString()).setValue(sImage, description)
+            .addOnSuccessListener {
+                binding.imageToAdd.setImageBitmap(null)
+                binding.addImageDescription.text.clear()
+                sImage=""
+                Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(context, "no image selected", Toast.LENGTH_SHORT).show()
+            }*/
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

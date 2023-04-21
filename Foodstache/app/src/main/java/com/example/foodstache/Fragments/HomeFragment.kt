@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import com.example.foodstache.BottomNavigation
 import com.example.foodstache.LoginActivity
 import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
@@ -57,15 +58,21 @@ class HomeFragment : Fragment() {
         binding.imageProfileBtn.setOnClickListener {
             startActivity(Intent(this@HomeFragment.context, ProfileActivity::class.java))
         }
-        /*var query=db.orderByChild("image")
+       /* var query=db.orderByChild("image")
         query.addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-
+                    var ky:String=""
+                    for (itmsnapshot in snapshot.children){
+                        ky=itmsnapshot.key.toString()
+                    }
                 }
             }
         })*/
 
+        binding.imageProfileBtn.setOnClickListener {
+            startActivity(Intent(this@HomeFragment.context, ProfileActivity::class.java))
+        }
         // Inflate the layout for this fragment
         return root
     }
