@@ -53,7 +53,6 @@ class AddImageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding : FragmentAddImageBinding
-    var sImage:String?=""
 
     private var myUrl=""
     private var imageUri: Uri?= null
@@ -84,7 +83,7 @@ class AddImageFragment : Fragment() {
             ActivityResultLauncher.launch(myfileintent)
         }
 
-        binding.uploadBtn.setOnClickListener {
+        binding.imageUploadBtn.setOnClickListener {
             UploadPost()
             startActivity(Intent(this@AddImageFragment.context, BottomNavigation::class.java))
         }
@@ -102,14 +101,6 @@ class AddImageFragment : Fragment() {
             try{
                 imageUri=uri
                 binding.imageToAdd.setImageURI(imageUri)
-                /*val inputStream= context?.contentResolver?.openInputStream(uri!!)
-                val myBitmap= BitmapFactory.decodeStream(inputStream)
-                val stream= ByteArrayOutputStream()
-                myBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                val bytes= stream.toByteArray()
-                sImage= Base64.encodeToString(bytes,Base64.DEFAULT)
-                binding.imageToAdd.setImageBitmap(myBitmap)
-                inputStream!!.close()*/
                 Toast.makeText(context, "Image Selected", Toast.LENGTH_SHORT).show()
             } catch (ex:Exception){
                 Toast.makeText(context, ex.message.toString(), Toast.LENGTH_LONG).show()
@@ -117,10 +108,6 @@ class AddImageFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-    }
     private fun UploadPost()
     {
         when{
@@ -155,7 +142,7 @@ class AddImageFragment : Fragment() {
                         val userMap= HashMap<String, Any>()
 
                         userMap["postId"]=postId!!
-                        userMap["description"]=binding.addImageDescription.text.toString().toLowerCase()
+                        userMap["description"]=binding.addImageDescription.text.toString()
                         userMap["user"]= FirebaseAuth.getInstance().currentUser!!.uid
                         userMap["Image"]=myUrl
 
@@ -170,19 +157,6 @@ class AddImageFragment : Fragment() {
                 })
             }
         }
-        /*val description=binding.addImageDescription.text.toString()
-        db=FirebaseDatabase.getInstance().getReference("Uploads")
-        val dbr= FirebaseDatabase.getInstance().reference
-        val id=dbr.push().key
-        db.child(id.toString()).setValue(sImage, description)
-            .addOnSuccessListener {
-                binding.imageToAdd.setImageBitmap(null)
-                binding.addImageDescription.text.clear()
-                sImage=""
-                Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(context, "no image selected", Toast.LENGTH_SHORT).show()
-            }*/
 
     }
     companion object {

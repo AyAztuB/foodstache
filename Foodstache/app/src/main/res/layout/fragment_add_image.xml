@@ -41,7 +41,7 @@
         android:hint="description..."/>
 
     <Button
-        android:id="@+id/upload_btn"
+        android:id="@+id/image_upload_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
