@@ -108,17 +108,6 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Posts"
-                            android:textColor="@android:color/black"
-                            android:textSize="12dp"
-                            android:textStyle="bold">
-
-                        </TextView>
-
                         <TextView
                             android:id="@+id/total_posts"
                             android:layout_width="wrap_content"
@@ -130,6 +119,18 @@
 
                         </TextView>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Posts"
+                            android:textColor="@android:color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold">
+
+                        </TextView>
+
+
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -139,16 +140,6 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Followers"
-                            android:textColor="@android:color/black"
-                            android:textSize="12dp"
-                            android:textStyle="bold">
-
-                        </TextView>
 
                         <TextView
                             android:id="@+id/total_followers"
@@ -161,6 +152,16 @@
 
                         </TextView>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Followers"
+                            android:textColor="@android:color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold">
+
+                        </TextView>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -172,9 +173,10 @@
 
 
                         <TextView
+                            android:id="@+id/total_following"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Following"
+                            android:text="0"
                             android:textColor="@android:color/black"
                             android:textSize="12dp"
                             android:textStyle="bold">
@@ -182,10 +184,9 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/total_following"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="Following"
                             android:textColor="@android:color/black"
                             android:textSize="12dp"
                             android:textStyle="bold">

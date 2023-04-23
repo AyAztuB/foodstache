@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Foodstache"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterProfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
@@ -37,7 +40,7 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />

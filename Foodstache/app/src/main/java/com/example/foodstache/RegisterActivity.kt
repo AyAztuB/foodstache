@@ -117,7 +117,9 @@ class RegisterActivity : AppCompatActivity() {
                     reference.child(uid).setValue(hashMap)
 
                     Toast.makeText(this@RegisterActivity, "Registered...\n"+user.email, Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@RegisterActivity, BottomNavigation::class.java))
+                    val Intent = Intent(this@RegisterActivity, RegisterProfilActivity::class.java)
+                    Intent.putExtra("userId", uid)
+                    startActivity(Intent)
                     finish()
                 }
                 else {
