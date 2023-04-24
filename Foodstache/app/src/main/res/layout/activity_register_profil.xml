@@ -22,76 +22,80 @@
                 android:id="@+id/EditProfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:text="@string/edit_your_profil"
+                android:textAlignment="center"
                 android:textColor="@color/purple_500"
                 android:textSize="25sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/NomProfil"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:id="@+id/NomProfil"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_margin="30dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nomProfiltx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/nom_du_profil"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:hint="@string/nom_du_profil" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Username"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:id="@+id/Username"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_margin="30dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernametx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/username"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:hint="@string/username" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- EditText: Input Password -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Bio"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:id="@+id/Bio"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_margin="30dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/bioTx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/bio"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:hint="@string/bio" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/PhoneNumber"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:id="@+id/PhoneNumber"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_margin="30dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phonenumberTx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone_number"
                     android:drawablePadding="5dp"
+                    android:hint="@string/phone_number"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:text="@string/add_a_profile_picture"
+                android:textAlignment="center"
                 android:textColor="@color/purple_500"
                 android:textSize="20sp">
 
@@ -102,35 +106,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:src="@drawable/profil_picture_basic" />
-            <Button
-                android:id="@+id/browse_btn_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginLeft="50dp"
-                android:textAllCaps="false"
-                android:text="@string/browse"/>
 
             <Button
-                android:id="@+id/camera_btn"
+                android:id="@+id/browse_btn_image_profil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
                 android:layout_marginLeft="50dp"
-                android:textAllCaps="false"
-                android:text="@string/take_a_picture"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"
+                android:text="@string/browse"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/camera_btn_profil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="@string/take_a_picture"
+                android:textAllCaps="false" />
 
 
             <Button
                 android:id="@+id/validateBtn"
+                style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                app:iconGravity="textStart"
-                android:textAllCaps="false"
                 android:layout_margin="20dp"
-                android:text="@string/validate" />
+                android:text="@string/validate"
+                android:textAllCaps="false"
+                app:iconGravity="textStart" />
+
+
 
         </LinearLayout>
     </ScrollView>
