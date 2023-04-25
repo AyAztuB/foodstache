@@ -104,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["username"] = "" // Will add later (e.g. edit profile)
                     hashMap["name"] = "" // Will add later (e.g. edit profile)
                     hashMap["phone"] = "" // Will add later (e.g. edit profile)
-                    hashMap["image"] = "" // Will add later (e.g. edit profile)
+                    hashMap["image"] = "https://firebasestorage.googleapis.com/v0/b/foodstache-be8fb.appspot.com/o/Profil%20Pictures%2Fphoto_profil_de_base.jpeg?alt=media&token=170cb281-1834-4207-abe2-b0292c6347f4" // Will update later (e.g. edit profile)
                     hashMap["bio"] = "" // Will add later (e.g. edit profile)
                     hashMap["nbFollowing"] = "0"
                     hashMap["nbFollowers"] = "0"

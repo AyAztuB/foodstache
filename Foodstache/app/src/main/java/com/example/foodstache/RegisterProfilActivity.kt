@@ -141,10 +141,10 @@ class RegisterProfilActivity : AppCompatActivity() {
 
     private fun editProfil(name : String, username : String, phone : String, bio : String, userID : String) {
         if(username.isNotEmpty()) {
-            database.child("Users").child(userID).child("username").setValue(username)
+            database.child("Users").child(userID).child("username").setValue(username.toLowerCase())
         }
         if(name.isNotEmpty()) {
-            database.child("Users").child(userID).child("name").setValue(name)
+            database.child("Users").child(userID).child("name").setValue(name.toLowerCase())
         }
         if(phone.isNotEmpty()) {
             database.child("Users").child(userID).child("phone").setValue(phone)

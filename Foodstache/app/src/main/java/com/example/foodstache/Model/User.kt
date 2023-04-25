@@ -3,25 +3,25 @@ package com.example.foodstache.Model
 class User {
 
     private var username : String = ""
-    private var fullName : String = ""
+    private var name : String = ""
     private var bio : String = ""
     private var nbFollowing : String = ""
     private var nbFollowers : String = ""
     private var nbPost : String = ""
-    private var pp : String = ""
-    private var userId : String = ""
+    private var image : String = ""
+    private var uid : String = ""
 
     constructor()
 
-    constructor(username : String, bio : String, nbFollowing : String, nbFollowers : String, nbPost : String, pp : String, userId: String, fullName : String ){
+    constructor(username : String, bio : String, nbFollowing : String, nbFollowers : String, nbPost : String, image : String, uid: String, name : String ){
         this.username = username
         this.bio = bio
         this.nbFollowing = nbFollowing
         this.nbFollowers = nbFollowers
         this.nbPost = nbPost
-        this.pp = pp
-        this.userId = userId
-        this.fullName = fullName
+        this.image = image
+        this.uid = uid
+        this.name = name
     }
 
     fun getUsername() : String{
@@ -63,28 +63,28 @@ class User {
         this.nbPost= nbPost
     }
 
-    fun getPp() : String{
-        return pp
+    fun getImage() : String{
+        return image
     }
 
-    fun setPp(pp: String){
-        this.pp= pp
+    fun setImage(image: String){
+        this.image= image
     }
 
-    fun getUserId() : String{
-        return userId
+    fun getUid() : String{
+        return uid
     }
 
-    fun setUserId(userId: String){
-        this.userId= userId
+    fun setUid(uid: String){
+        this.uid= uid
     }
 
-    fun getFullName(): String {
-        return fullName
+    fun getName(): String {
+        return name
     }
 
-    fun setFullName(fullName : String){
-        this.fullName = fullName
+    fun setName(name : String){
+        this.name = name
     }
 
 

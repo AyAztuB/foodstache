@@ -30,19 +30,14 @@ class UserAdapter (private var mContext : Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUser[position]
         holder.userNameTextView.text = user.getUsername()
-        holder.fullNameTextView.text = user.getFullName()
-        Picasso.get().load(user.getPp()).placeholder(R.drawable.profile_image).into(holder.profilPictureImageView)
+        holder.fullNameTextView.text = user.getName()
+        Picasso.get().load(user.getImage()).placeholder(R.drawable.baseline_people_24).into(holder.profilPictureImageView)
     }
 
     class ViewHolder (@NonNull itemView : View) : RecyclerView.ViewHolder(itemView){
-        var userNameTextView: TextView = itemView.findViewById(R.id.user_name_id_search)
-        var fullNameTextView: TextView = itemView.findViewById(R.id.full_name)
-        var profilPictureImageView: ImageView = itemView.findViewById(R.id.profile_image)
-        var bioTextView: TextView = itemView.findViewById(R.id.bio)
-        var totalPostsTextView: TextView = itemView.findViewById(R.id.total_posts)
-        var totalFollowersTextView: TextView = itemView.findViewById(R.id.total_followers)
-        var totalFollowingTextView: TextView = itemView.findViewById(R.id.total_following)
-        var followButton : Button = itemView.findViewById(R.id.followButton)
+        var userNameTextView: TextView = itemView.findViewById(R.id.user_name_search)
+        var fullNameTextView: TextView = itemView.findViewById(R.id.user_full_name_search)
+        var profilPictureImageView: ImageView = itemView.findViewById(R.id.user_pp_search)
     }
 
 
