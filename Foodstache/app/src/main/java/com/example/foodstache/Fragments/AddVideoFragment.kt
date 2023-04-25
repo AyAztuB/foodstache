@@ -121,7 +121,7 @@ class AddVideoFragment : Fragment() {
                         val downloadUrl=task.result
                         myUrl=downloadUrl.toString()
 
-                        val ref= FirebaseDatabase.getInstance().reference.child("Image")
+                        val ref= FirebaseDatabase.getInstance().reference.child("Video")
                         val postId= ref.push().key
 
                         val userMap= HashMap<String, Any>()

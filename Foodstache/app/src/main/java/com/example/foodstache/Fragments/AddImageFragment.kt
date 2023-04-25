@@ -56,7 +56,6 @@ class AddImageFragment : Fragment() {
 
     private var myUrl=""
     private var imageUri: Uri?= null
-    private lateinit var db : DatabaseReference
     private var storagePostRef:StorageReference?= null
 
 
@@ -85,7 +84,6 @@ class AddImageFragment : Fragment() {
 
         binding.imageUploadBtn.setOnClickListener {
             UploadPost()
-            startActivity(Intent(this@AddImageFragment.context, BottomNavigation::class.java))
         }
 
         // Inflate the layout for this fragment
@@ -141,8 +139,8 @@ class AddImageFragment : Fragment() {
 
                         val userMap= HashMap<String, Any>()
 
-                        userMap["postId"]=postId!!
-                        userMap["description"]=binding.addImageDescription.text.toString()
+                        userMap["postid"]=postId!!
+                        userMap["description"]=binding.addImageDescription.text.toString().toLowerCase()
                         userMap["user"]= FirebaseAuth.getInstance().currentUser!!.uid
                         userMap["Image"]=myUrl
 
