@@ -2,10 +2,12 @@ package com.example.foodstache
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -34,10 +36,7 @@ class RegisterProfilActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var storageRef : StorageReference
     private lateinit var mAvatarView : ImageView
-    private var storagePostRef:StorageReference?= null
-    private lateinit var binding : ActivityRegisterProfilBinding
 
-    private val PICK_IMAGE_REQUEST = 71
     private var myUrl: Uri? =null
     private lateinit var imageLink : String
     var pictureProfile: Boolean = false
@@ -104,7 +103,7 @@ class RegisterProfilActivity : AppCompatActivity() {
             }
         }
     }
-    fun uploadImage() {
+    private fun uploadImage() {
         // on below line checking weather our file uri is null or not.
         if (myUrl != null) {
             // on below line displaying a progress dialog when uploading an image.
@@ -119,14 +118,13 @@ class RegisterProfilActivity : AppCompatActivity() {
             val ref: StorageReference = FirebaseStorage.getInstance().reference.child("Profil Pictures")
                 .child(UUID.randomUUID().toString())
             // on below line adding a file to our storage.
-            ref.putFile(myUrl!!).addOnSuccessListener { it ->
+            ref.putFile(myUrl!!).addOnSuccessListener {
                 // this method is called when file is uploaded.
                 // in this case we are dismissing our progress dialog and displaying a toast message
-                val result = it.metadata!!.reference!!.downloadUrl;
-                result.addOnSuccessListener {
-                    imageLink = it.toString()
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d(TAG, "File Location: $it")
+                    LoadInDataBase(it.toString())
                 }
-                val userId = intent.getStringExtra("userId")
                 progressDialog.dismiss()
                 Toast.makeText(applicationContext, "Image Uploaded..", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
@@ -139,6 +137,12 @@ class RegisterProfilActivity : AppCompatActivity() {
         }
     }
 
+    private fun LoadInDataBase(url : String) {
+        val userId = intent.getStringExtra("userId")
+        if (userId != null) {
+            database.child("Users").child(userId).child("image").setValue(url)
+        }
+    }
 
     private fun editProfil(name : String, username : String, phone : String, bio : String, userID : String) {
         if(username.isNotEmpty()) {
@@ -155,8 +159,6 @@ class RegisterProfilActivity : AppCompatActivity() {
         }
         if(pictureProfile) {
             uploadImage()
-            database.child("Users").child(userID).child("image").setValue(imageLink)
-
         }
         startActivity(Intent(this@RegisterProfilActivity, BottomNavigation::class.java))
 
