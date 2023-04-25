@@ -63,7 +63,8 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <!-- Edit Profile -->
-                    <RelativeLayout
+                <RelativeLayout
+                    android:id="@+id/edit_profil_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

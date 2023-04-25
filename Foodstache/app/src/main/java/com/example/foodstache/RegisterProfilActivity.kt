@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.foodstache.databinding.ActivityRegisterProfilBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -38,7 +37,6 @@ class RegisterProfilActivity : AppCompatActivity() {
     private lateinit var mAvatarView : ImageView
 
     private var myUrl: Uri? =null
-    private lateinit var imageLink : String
     var pictureProfile: Boolean = false
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +54,6 @@ class RegisterProfilActivity : AppCompatActivity() {
         database = Firebase.database.reference
         storageRef = Firebase.storage.reference
 
-
-
         editBtn.setOnClickListener{
             val userId = intent.getStringExtra("userId")
             val name : String = nameProfil.text.toString().trim()
@@ -68,7 +64,6 @@ class RegisterProfilActivity : AppCompatActivity() {
             if (userId != null) {
                 editProfil(name, username, phone, bio, userId)
             }
-
         }
 
         uploadBtn.setOnClickListener{
