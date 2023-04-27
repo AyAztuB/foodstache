@@ -21,7 +21,7 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
@@ -72,8 +72,7 @@ class AddVideoFragment : Fragment() {
 
         binding.videoUploadBtn.setOnClickListener {
             UploadVideo()
-            // WHY A SECOND TIME ????
-            // startActivity(Intent(this@AddVideoFragment.context, BottomNavigation::class.java))
+            startActivity(Intent(this@AddVideoFragment.context, BottomNavigation::class.java))
         }
         // Inflate the layout for this fragment
         return root
@@ -127,48 +126,18 @@ class AddVideoFragment : Fragment() {
 
                         val userMap= HashMap<String, Any>()
 
-                        val user = FirebaseAuth.getInstance().currentUser!!
-
-                        userMap["postID"]=postId!!
+                        userMap["postId"]=postId!!
                         userMap["description"]=binding.addVideoDescription.text.toString().toLowerCase()
-                        userMap["userID"]= user.uid
+                        userMap["user"]= FirebaseAuth.getInstance().currentUser!!.uid
                         userMap["Image"]=myUrl
-                        userMap["Time"]= (System.currentTimeMillis()*-1).toString()
-                        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                        val query : Query = databaseReference.orderByChild("uid").equalTo(user.uid)
-                        query.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                for (ds in snapshot.children) {
-                                    userMap["Username"] = "" + ds.child("username").value
-                                    userMap["userPP"] = ""+ds.child("image").value
 
-                                    // change nbPost value
-                                    val nbPost = ds.child("nbPost").value.toString().toInt()
-                                    val newNbPost = nbPost + 1
-                                    ds.child("nbPost").ref.setValue(newNbPost.toString())
+                        ref.child(postId).updateChildren(userMap)
 
-                                    // Post a post :)
-                                    ref.child(postId).updateChildren(userMap)
+                        Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
 
-                                    Toast.makeText(context, "Video uploaded", Toast.LENGTH_SHORT).show()
-
-                                    val intent=Intent(this@AddVideoFragment.context, BottomNavigation::class.java)
-                                    startActivity(intent)
-                                    progressDialog.dismiss()
-
-                                    break
-                                }
-                            }
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(activity, ""+error.message, Toast.LENGTH_SHORT).show()
-
-                                Toast.makeText(context, "Video uploaded", Toast.LENGTH_SHORT).show()
-
-                                val intent=Intent(this@AddVideoFragment.context, BottomNavigation::class.java)
-                                startActivity(intent)
-                                progressDialog.dismiss()
-                            }
-                        })
+                        val intent=Intent(this@AddVideoFragment.context, BottomNavigation::class.java)
+                        startActivity(intent)
+                        progressDialog.dismiss()
                     }
                 })
             }
