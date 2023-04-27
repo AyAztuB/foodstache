@@ -26,8 +26,9 @@
                 android:id="@+id/urpPP"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_people_24"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -41,13 +42,16 @@
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"/>
 
                 <TextView
                     android:id="@+id/rpTime"
                     android:text="何時ですか？"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="20dp"/>
 
             </LinearLayout>
 
@@ -60,14 +64,18 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:text="Ingredients:"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:id="@+id/rpIngredients"
@@ -75,14 +83,18 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:text="Steps:"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:id="@+id/rpSteps"
@@ -90,7 +102,9 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <!-- maybe some emoji to 'like'... -->
         <!-- maybe a share button -->
