@@ -77,9 +77,12 @@ class HomeFragment : Fragment() {
             }
         })*/
 
+        // WHY 2 TIMES THE SAME ???
+        /*
         binding.imageProfileBtn.setOnClickListener {
             startActivity(Intent(this@HomeFragment.context, ProfileActivity::class.java))
         }
+        */
 
         // recycler view and its properties
         recyclerView = root.findViewById(R.id.recycler_view_home)
