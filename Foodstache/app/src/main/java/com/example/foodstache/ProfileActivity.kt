@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 
+// TODO: generalize to access on others' profiles (eg intent.putExtra("UID", other.uid) and intent.getStringExtra("UID")) => if null set our profile
+
 class ProfileActivity : AppCompatActivity() {
 
     // Firebase Auth

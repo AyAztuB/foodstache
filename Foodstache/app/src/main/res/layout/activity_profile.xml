@@ -8,6 +8,8 @@
     tools:context=".ProfileActivity"
     android:background="@color/primary">
 
+    <!-- potentially add unfollow/follow button for other profiles (set invisible for ourself) + set parameter button invisible when on other profiles -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

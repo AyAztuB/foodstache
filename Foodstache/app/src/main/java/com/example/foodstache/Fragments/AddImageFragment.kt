@@ -29,8 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
@@ -139,24 +138,48 @@ class AddImageFragment : Fragment() {
 
                         val userMap= HashMap<String, Any>()
 
-                        userMap["postid"]=postId!!
+                        val user = FirebaseAuth.getInstance().currentUser!!
+
+                        userMap["postID"]=postId!!
                         userMap["description"]=binding.addImageDescription.text.toString().toLowerCase()
-                        userMap["user"]= FirebaseAuth.getInstance().currentUser!!.uid
+                        userMap["userID"]= user.uid
                         userMap["Image"]=myUrl
+                        userMap["Time"]= (System.currentTimeMillis()*-1).toString()
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                        val query : Query = databaseReference.orderByChild("uid").equalTo(user.uid)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (ds in snapshot.children) {
+                                    userMap["Username"] = "" + ds.child("username").value
+                                    userMap["userPP"] = ""+ds.child("image").value
+                                    PostPost(userMap, postId, progressDialog, ref)
+                                    break
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(activity, ""+error.message, Toast.LENGTH_SHORT).show()
 
-                        ref.child(postId).updateChildren(userMap)
-
-                        Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
-
-                        val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
-                        startActivity(intent)
-                        progressDialog.dismiss()
+                                val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
+                                startActivity(intent)
+                                progressDialog.dismiss()
+                            }
+                        })
                     }
                 })
             }
         }
-
     }
+
+    private fun PostPost(userMap: HashMap<String, Any>, postId: String, progressDialog: ProgressDialog, ref: DatabaseReference) {
+        ref.child(postId).updateChildren(userMap)
+
+        Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
+
+        val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
+        startActivity(intent)
+        progressDialog.dismiss()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
