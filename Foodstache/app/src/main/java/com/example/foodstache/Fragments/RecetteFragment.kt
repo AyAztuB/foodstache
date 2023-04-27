@@ -52,7 +52,7 @@ class RecetteFragment : Fragment() {
 
         // recycler view and its properties
         recyclerView = view.findViewById(R.id.recycler_view_recipe)
-        val layoutManager : LinearLayoutManager = LinearLayoutManager(activity)
+        val layoutManager : LinearLayoutManager = LinearLayoutManager(context)
         // show newest post first
         layoutManager.stackFromEnd = true
         layoutManager.reverseLayout = true
@@ -102,7 +102,7 @@ class RecetteFragment : Fragment() {
                                     ds.child("userPP").value.toString(), Ingredients, Steps)
 
                                 recipePostList.add(modelPost)
-                                adapterRecipePost = AdapterRecipePosts(activity!!, recipePostList)
+                                adapterRecipePost = AdapterRecipePosts(context!!, recipePostList)
                                 recyclerView.adapter = adapterRecipePost
                             }
                         }

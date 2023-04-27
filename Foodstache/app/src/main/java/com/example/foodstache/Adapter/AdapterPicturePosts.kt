@@ -1,6 +1,7 @@
 package com.example.foodstache.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodstache.Model.ModelPicturePost
+import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
 import com.squareup.picasso.Picasso
 import java.text.DateFormat
@@ -46,6 +48,12 @@ class AdapterPicturePosts(val context: Context, val picturePostList: ArrayList<M
         try {
             Picasso.get().load(Image).into(holder.ppPicture)
         } catch (_: Exception) {}
+
+        holder.uppPP.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("UID", userID)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

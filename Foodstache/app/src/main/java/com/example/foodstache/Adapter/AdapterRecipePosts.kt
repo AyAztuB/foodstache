@@ -1,6 +1,7 @@
 package com.example.foodstache.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.MediaController
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodstache.Model.ModelRecipePost
+import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -61,6 +63,12 @@ class AdapterRecipePosts(val context: Context, val recipePostList: ArrayList<Mod
         try {
             Picasso.get().load(userPP).placeholder(R.drawable.baseline_people_24).into(holder.urpPP)
         } catch (_: Exception) {}
+
+        holder.urpPP.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("UID", userID)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

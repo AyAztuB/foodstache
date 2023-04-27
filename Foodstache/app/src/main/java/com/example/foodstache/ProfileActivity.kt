@@ -23,6 +23,7 @@ class ProfileActivity : AppCompatActivity() {
     // Firebase Auth
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var user : FirebaseUser
+    private lateinit var uid : String
     private lateinit var firebaseDatabase : FirebaseDatabase
     private lateinit var databaseReference : DatabaseReference
 
@@ -84,9 +85,14 @@ class ProfileActivity : AppCompatActivity() {
             // user is signed in, stay here
             // set user info
             user = _user
+            val _uid = intent.getStringExtra("UID")
+            if (_uid == null)
+                uid = user.uid
+            else
+                uid = _uid
             firebaseDatabase = FirebaseDatabase.getInstance()
             databaseReference = firebaseDatabase.getReference("Users")
-            val query : Query = databaseReference.orderByChild("uid").equalTo(user.uid)
+            val query : Query = databaseReference.orderByChild("uid").equalTo(uid)
             query.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (ds in snapshot.children) {

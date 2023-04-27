@@ -1,6 +1,7 @@
 package com.example.foodstache.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodstache.Model.User
+import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -83,6 +85,12 @@ class UserAdapter (private var mContext : Context,
                 }
 
             }
+        }
+
+        holder.profilPictureImageView.setOnClickListener {
+            val intent = Intent(mContext, ProfileActivity::class.java)
+            intent.putExtra("UID", user.getUid())
+            mContext.startActivity(intent)
         }
     }
 

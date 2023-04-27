@@ -83,7 +83,7 @@ class VideoFragment : Fragment() {
 
         // recycler view and its properties
         recyclerViewVideo = view.findViewById(R.id.recycler_view_video)
-        val layoutManager : LinearLayoutManager = LinearLayoutManager(activity)
+        val layoutManager : LinearLayoutManager = LinearLayoutManager(context)
         // show newest post first
         layoutManager.stackFromEnd = true
         layoutManager.reverseLayout = true
@@ -164,7 +164,7 @@ class VideoFragment : Fragment() {
                             val modelPost : ModelPicturePost = ds.getValue(ModelPicturePost::class.java) as ModelPicturePost
                             if (followingUID.contains(modelPost.userID)) {
                                 videoPostList.add(modelPost)
-                                adapterVideoPost = AdapterVideoPosts(activity!!, videoPostList)
+                                adapterVideoPost = AdapterVideoPosts(context!!, videoPostList)
                                 recyclerViewVideo.adapter = adapterVideoPost
                             }
                         }

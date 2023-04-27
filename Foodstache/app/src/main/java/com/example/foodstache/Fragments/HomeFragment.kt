@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
 
         // recycler view and its properties
         recyclerView = root.findViewById(R.id.recycler_view_home)
-        val layoutManager : LinearLayoutManager = LinearLayoutManager(activity)
+        val layoutManager : LinearLayoutManager = LinearLayoutManager(context)
         // show newest post first
         layoutManager.stackFromEnd = true
         layoutManager.reverseLayout = true
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
                             val modelPost : ModelPicturePost = ds.getValue(ModelPicturePost::class.java) as ModelPicturePost
                             if (followingUID.contains(modelPost.userID)) {
                                 picturePostList.add(modelPost)
-                                adapterPicturePost = AdapterPicturePosts(activity!!, picturePostList)
+                                adapterPicturePost = AdapterPicturePosts(context!!, picturePostList)
                                 recyclerView.adapter = adapterPicturePost
                             }
                         }
