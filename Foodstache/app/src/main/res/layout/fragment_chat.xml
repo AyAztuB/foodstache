@@ -15,6 +15,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/user_layout"
         app:layout_constraintTop_toTopOf="parent"/>
-    <!--app:layout_constrainStart_toStartOf="parent"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
