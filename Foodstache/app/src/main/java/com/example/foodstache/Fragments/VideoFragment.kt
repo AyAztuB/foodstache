@@ -8,16 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodstache.Adapter.*
 import com.example.foodstache.Model.*
 import com.example.foodstache.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +36,10 @@ class VideoFragment : Fragment() {
     private var userAdapter : UserAdapter? = null
     private lateinit var search_text : EditText
     private var mUser : MutableList<User>? = null
+
+    private lateinit var recyclerViewVideo: RecyclerView
+    private lateinit var videoPostList: ArrayList<ModelPicturePost>
+    private lateinit var adapterVideoPost: AdapterVideoPosts
 
     @SuppressLint("CutPasteId")
     override fun onCreateView(
@@ -78,7 +81,16 @@ class VideoFragment : Fragment() {
 
         })
 
+        // recycler view and its properties
+        recyclerViewVideo = view.findViewById(R.id.recycler_view_video)
+        val layoutManager : LinearLayoutManager = LinearLayoutManager(activity)
+        // show newest post first
+        layoutManager.stackFromEnd = true
+        layoutManager.reverseLayout = true
+        recyclerViewVideo.layoutManager = layoutManager
 
+        videoPostList = ArrayList()
+        loadVideoPosts()
 
         return view
     }
@@ -130,6 +142,43 @@ class VideoFragment : Fragment() {
 
             }
 
+        })
+    }
+
+    private fun loadVideoPosts() {
+        val followingUID = ArrayList<String>()
+        val refFollowing : DatabaseReference = FirebaseDatabase.getInstance().getReference("Follow").child(
+            FirebaseAuth.getInstance().currentUser!!.uid).child("Following")
+        refFollowing.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    followingUID.add(ds.key!!)
+                }
+
+                val ref : DatabaseReference = FirebaseDatabase.getInstance().getReference("Video")
+                val query: Query = ref.orderByChild("Time")
+                query.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        videoPostList.clear()
+                        for(ds in snapshot.children) {
+                            val modelPost : ModelPicturePost = ds.getValue(ModelPicturePost::class.java) as ModelPicturePost
+                            if (followingUID.contains(modelPost.userID)) {
+                                videoPostList.add(modelPost)
+                                adapterVideoPost = AdapterVideoPosts(activity!!, videoPostList)
+                                recyclerViewVideo.adapter = adapterVideoPost
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(activity, ""+error.message, Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(activity, ""+databaseError.message, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

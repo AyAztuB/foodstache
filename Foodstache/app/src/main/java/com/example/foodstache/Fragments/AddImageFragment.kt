@@ -152,7 +152,21 @@ class AddImageFragment : Fragment() {
                                 for (ds in snapshot.children) {
                                     userMap["Username"] = "" + ds.child("username").value
                                     userMap["userPP"] = ""+ds.child("image").value
-                                    PostPost(userMap, postId, progressDialog, ref)
+
+                                    // change nbPost value
+                                    val nbPost = ds.child("nbPost").value.toString().toInt()
+                                    val newNbPost = nbPost + 1
+                                    ds.child("nbPost").ref.setValue(newNbPost.toString())
+
+                                    // Post a post :)
+                                    ref.child(postId).updateChildren(userMap)
+
+                                    Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
+
+                                    val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
+                                    startActivity(intent)
+                                    progressDialog.dismiss()
+
                                     break
                                 }
                             }
@@ -168,16 +182,6 @@ class AddImageFragment : Fragment() {
                 })
             }
         }
-    }
-
-    private fun PostPost(userMap: HashMap<String, Any>, postId: String, progressDialog: ProgressDialog, ref: DatabaseReference) {
-        ref.child(postId).updateChildren(userMap)
-
-        Toast.makeText(context, "image uploaded", Toast.LENGTH_SHORT).show()
-
-        val intent=Intent(this@AddImageFragment.context, BottomNavigation::class.java)
-        startActivity(intent)
-        progressDialog.dismiss()
     }
 
     companion object {
