@@ -166,6 +166,7 @@
                         android:layout_toEndOf="@+id/notificationIcon"/>
 
                     <Switch
+                        android:id="@+id/notifbtn"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
