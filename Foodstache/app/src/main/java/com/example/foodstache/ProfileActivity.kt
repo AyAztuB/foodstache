@@ -173,7 +173,7 @@ class ProfileActivity : AppCompatActivity() {
                 postList.clear()
                 val child: MutableList<DataSnapshot> = mutableListOf()
                 snapshot.children.forEach { x -> x.children.forEach { e -> if(e.child("userID").value.toString() == uid) { child.add(e) } } }
-                child.sortBy { it.child("Time").value.toString().toLong() }
+                child.sortBy { it.child("Time").value.toString().toLong()*-1 }
                 for (ds in child) {
                     val userID = ds.child("userID").value.toString()
                     if (userID == uid) {
