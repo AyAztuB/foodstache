@@ -2,6 +2,7 @@ package com.example.foodstache.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,14 @@ import com.example.foodstache.ProfileActivity
 import com.example.foodstache.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
 
+private lateinit var database: DatabaseReference
 class UserAdapter (private var mContext : Context,
                    private var mUser : List<User>,
                    private var isFragment : Boolean = false) : RecyclerView.Adapter<UserAdapter.ViewHolder>()
@@ -36,6 +38,7 @@ class UserAdapter (private var mContext : Context,
         return mUser.size
     }
 
+    private val TAG = "User"
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUser[position]
         holder.userNameTextView.text = user.getUsername()
@@ -51,19 +54,50 @@ class UserAdapter (private var mContext : Context,
                         .child("Following").child(user.getUid())
                         .setValue(true).addOnCompleteListener { task ->
                             if (task.isSuccessful){
-
                                 firebaseUser?.uid.let { it->
                                     FirebaseDatabase.getInstance().reference.child("Follow").child(user.getUid())
                                         .child("Followers").child(it.toString())
                                         .setValue(true).addOnCompleteListener { task ->
                                             if (task.isSuccessful){
 
+                                                Log.v(TAG, "User 1 : "+ user.getName());
+                                                Log.v(TAG, "User 2 : "+ firebaseUser?.uid);
                                             }
                                         }
                                 }
                             }
                         }
+
                 }
+                val followRef = firebaseUser?.uid.let { it ->
+                    FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
+                        .child("nbFollowers")
+                }
+               followRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val nbFollowers = snapshot.value.toString().toInt()
+                        Log.v(TAG, "nombre follow avant : " + nbFollowers)
+                        val newValueInt = nbFollowers+1
+                        val newNbFollowers = newValueInt.toString()
+                        Log.v(TAG, "nombre follow après : " + newNbFollowers)
+                        val usercurrent = firebaseUser?.uid
+                        Log.v(TAG, "Current user : " + usercurrent.toString() + "Current user id : " + usercurrent)
+                        if (usercurrent != null) {
+                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
+                        }
+
+                        val nbFollowing = user.getNbFollowing().toInt()
+                        val newNbFollowing = nbFollowing + 1
+                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowing").setValue(newNbFollowing.toString())
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+
             }
             else{
                 firebaseUser?.uid.let { it->
@@ -83,6 +117,33 @@ class UserAdapter (private var mContext : Context,
                             }
                         }
                 }
+                val followRef = firebaseUser?.uid.let { it ->
+                    FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
+                        .child("nbFollowers")
+                }
+                followRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val nbFollowers = snapshot.value.toString().toInt()
+                        Log.v(TAG, "nombre follow avant : " + nbFollowers)
+                        val newValueInt = nbFollowers-1
+                        val newNbFollowers = newValueInt.toString()
+                        Log.v(TAG, "nombre follow après : " + newNbFollowers)
+                        val usercurrent = firebaseUser?.uid
+                        Log.v(TAG, "Current user : " + usercurrent.toString() + "Current user id : " + usercurrent)
+                        if (usercurrent != null) {
+                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
+                        }
+                        val nbFollowing = user.getNbFollowing().toInt()
+                        val newNbFollowing = nbFollowing - 1
+                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowing").setValue(newNbFollowing.toString())
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
 
             }
         }
