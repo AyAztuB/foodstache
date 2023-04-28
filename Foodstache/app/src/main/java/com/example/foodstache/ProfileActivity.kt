@@ -3,14 +3,19 @@ package com.example.foodstache
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
-import com.example.foodstache.Fragments.HomeFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.foodstache.Adapter.AdapterPostInProfile
+import com.example.foodstache.Model.ModelPostInProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -37,6 +42,10 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var nbFollowersTv : TextView
     private lateinit var nbFollowingTv : TextView
     private lateinit var mAvatarView : ImageView
+
+    private lateinit var recyclerViewPosts: RecyclerView
+    private lateinit var postList: ArrayList<ModelPostInProfile>
+    private lateinit var adapterPostInProfile: AdapterPostInProfile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +74,42 @@ class ProfileActivity : AppCompatActivity() {
         settingsBtn.setOnClickListener {
             // start LoginActivity
             startActivity(Intent(this@ProfileActivity, SettingActivity::class.java))
+            finish()
         }
 
         backBtn.setOnClickListener {
             // start LoginActivity
             startActivity(Intent(this@ProfileActivity, BottomNavigation::class.java))
+            finish()
         }
+
+        // recycler view and its properties
+        recyclerViewPosts = findViewById(R.id.recycler_view_post)
+        val layoutManager : LinearLayoutManager = LinearLayoutManager(this@ProfileActivity)
+        // show newest post first
+        layoutManager.stackFromEnd = true
+        layoutManager.reverseLayout = true
+        recyclerViewPosts.layoutManager = layoutManager
+
+        val _user = firebaseAuth.currentUser
+        if(_user == null) {
+            // user not signed in, go to MainActivity
+            startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
+            finish()
+        }
+        else {
+            // user is signed in, stay here
+            // set user info
+            user = _user
+            val _uid = intent.getStringExtra("UID")
+            if (_uid == null)
+                uid = user.uid
+            else
+                uid = _uid
+        }
+
+        postList = ArrayList()
+        loadPosts()
     }
 
     private fun checkUserStatus() {
@@ -125,6 +164,93 @@ class ProfileActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {}
             })
         }
+    }
+
+    private fun loadPosts() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Data")
+        val query = databaseReference.orderByChild("Time").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                postList.clear()
+                for(ds1 in snapshot.children) {
+                    for (ds in ds1.children) {
+                        val userID = ds.child("userID").value.toString()
+                        if (userID == uid) {
+                            when (ds.child("type").value.toString()) {
+                                "image" -> {
+                                    val modelPost = ModelPostInProfile(
+                                        userID,
+                                        ds.child("Time").value.toString(),
+                                        ds.child("Username").value.toString(),
+                                        ds.child("userPP").value.toString(),
+                                        ds.child("description").value.toString(),
+                                        ds.child("Image").value.toString(),
+                                        "noVideo",
+                                        "",
+                                        null,
+                                        null
+                                    )
+                                    postList.add(modelPost)
+                                    adapterPostInProfile =
+                                        AdapterPostInProfile(this@ProfileActivity, postList)
+                                    recyclerViewPosts.adapter = adapterPostInProfile
+                                }
+                                "video" -> {
+                                    val modelPost = ModelPostInProfile(
+                                        userID,
+                                        ds.child("Time").value.toString(),
+                                        ds.child("Username").value.toString(),
+                                        ds.child("userPP").value.toString(),
+                                        ds.child("description").value.toString(),
+                                        "noImage",
+                                        ds.child("Image").value.toString(),
+                                        "",
+                                        null,
+                                        null
+                                    )
+                                    postList.add(modelPost)
+                                    adapterPostInProfile =
+                                        AdapterPostInProfile(this@ProfileActivity, postList)
+                                    recyclerViewPosts.adapter = adapterPostInProfile
+                                }
+                                "recipe" -> {
+                                    val nbIngredients: Int =
+                                        ds.child("nbIngredients").value.toString().toInt()
+                                    val nbSteps: Int = ds.child("nbSteps").value.toString().toInt()
+                                    val Ingredients: ArrayList<String> = ArrayList()
+                                    val Steps: ArrayList<String> = ArrayList()
+                                    for (i in 0 until nbIngredients) {
+                                        Ingredients.add(ds.child("ingredient $i").value.toString())
+                                    }
+                                    for (i in 0 until nbSteps) {
+                                        Steps.add(ds.child("step $i").value.toString())
+                                    }
+                                    val modelPost = ModelPostInProfile(
+                                        userID,
+                                        ds.child("Time").value.toString(),
+                                        ds.child("Username").value.toString(),
+                                        ds.child("userPP").value.toString(),
+                                        "",
+                                        "noImage",
+                                        "noVideo",
+                                        ds.child("title").value.toString(),
+                                        Ingredients,
+                                        Steps
+                                    )
+                                    postList.add(modelPost)
+                                    adapterPostInProfile =
+                                        AdapterPostInProfile(this@ProfileActivity, postList)
+                                    recyclerViewPosts.adapter = adapterPostInProfile
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@ProfileActivity, ""+error.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     /* I don't know if it's useful...

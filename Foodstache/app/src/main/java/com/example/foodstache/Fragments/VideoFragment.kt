@@ -155,7 +155,7 @@ class VideoFragment : Fragment() {
                     followingUID.add(ds.key!!)
                 }
 
-                val ref : DatabaseReference = FirebaseDatabase.getInstance().getReference("Video")
+                val ref : DatabaseReference = FirebaseDatabase.getInstance().getReference("Data").child("Video")
                 val query: Query = ref.orderByChild("Time")
                 query.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -171,13 +171,13 @@ class VideoFragment : Fragment() {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(activity, ""+error.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT).show()
                     }
                 })
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(activity, ""+databaseError.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, ""+databaseError.message, Toast.LENGTH_SHORT).show()
             }
         })
     }

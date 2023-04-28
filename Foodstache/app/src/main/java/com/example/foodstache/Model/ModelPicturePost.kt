@@ -8,10 +8,11 @@ class ModelPicturePost {
     var Time : String = ""
     var Username : String = ""
     var userPP : String = ""
+    var type : String = ""
 
     constructor()
 
-    constructor(postID : String, description : String, userID : String, Image : String, Time : String, Username : String, userPP : String) {
+    constructor(postID : String, description : String, userID : String, Image : String, Time : String, Username : String, userPP : String, type : String) {
         this.postID = postID
         this.description = description
         this.userPP = userPP
@@ -19,6 +20,7 @@ class ModelPicturePost {
         this.Image = Image
         this.Time = Time
         this.Username = Username
+        this.type = type
     }
 
 }

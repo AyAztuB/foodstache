@@ -23,7 +23,7 @@
 
             <!-- maybe set image clickable to access to the profile of the publisher -->
             <ImageView
-                android:id="@+id/urpPP"
+                android:id="@+id/upPP"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_people_24"
                 android:layout_width="40dp"
@@ -37,7 +37,7 @@
                 android:layout_weight="1" >
 
                 <TextView
-                    android:id="@+id/urpName"
+                    android:id="@+id/upName"
                     android:text="お名前は何ですか？"
                     android:textColor="@color/white"
                     android:textSize="20sp"
@@ -46,7 +46,7 @@
                     android:layout_marginStart="20dp"/>
 
                 <TextView
-                    android:id="@+id/rpTime"
+                    android:id="@+id/pTime"
                     android:text="何時ですか？"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,13 +57,34 @@
 
         </LinearLayout>
 
+        <VideoView
+            android:id="@+id/pVideo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <ImageView
+            android:id="@+id/pPicture"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/pDescription"
+            android:text="何を食べますか？何ですか？インフォ！はい、日本語が話せます。"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
         <LinearLayout
+            android:id="@+id/recipe_post_part"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/rpTitle"
+                android:id="@+id/pTitle"
                 android:text="何ですか？"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -83,7 +104,7 @@
                 android:layout_marginEnd="10dp"/>
 
             <TextView
-                android:id="@+id/rpIngredients"
+                android:id="@+id/pIngredients"
                 android:text="Ingredient 1: something\nIngredient 2: an another thing"
                 android:textColor="@color/white"
                 android:textSize="15sp"
@@ -102,7 +123,7 @@
                 android:layout_marginEnd="10dp"/>
 
             <TextView
-                android:id="@+id/rpSteps"
+                android:id="@+id/pSteps"
                 android:text="Step 1: blabla\nStep 2: balalabla"
                 android:textColor="@color/white"
                 android:textSize="15sp"

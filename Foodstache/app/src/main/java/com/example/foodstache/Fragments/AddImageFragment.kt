@@ -133,7 +133,7 @@ class AddImageFragment : Fragment() {
                         val downloadUrl=task.result
                         myUrl=downloadUrl.toString()
 
-                        val ref= FirebaseDatabase.getInstance().reference.child("Image")
+                        val ref= FirebaseDatabase.getInstance().getReference("Data").child("Image")
                         val postId= ref.push().key
 
                         val userMap= HashMap<String, Any>()
@@ -141,6 +141,7 @@ class AddImageFragment : Fragment() {
                         val user = FirebaseAuth.getInstance().currentUser!!
 
                         userMap["postID"]=postId!!
+                        userMap["type"] = "image"
                         userMap["description"]=binding.addImageDescription.text.toString().toLowerCase()
                         userMap["userID"]= user.uid
                         userMap["Image"]=myUrl

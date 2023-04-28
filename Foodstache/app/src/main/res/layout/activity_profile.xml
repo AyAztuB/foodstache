@@ -232,6 +232,7 @@
 
             </LinearLayout>
 
+            <!-- maybe to remove ?! -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -263,9 +264,18 @@
                 </ImageButton>
 
             </LinearLayout>
+            <!-- end maybe to remove ?! -->
             
         </LinearLayout>
-        
+
     </ScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/scroll_view" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

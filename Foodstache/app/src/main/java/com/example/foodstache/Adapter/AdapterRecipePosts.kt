@@ -54,7 +54,7 @@ class AdapterRecipePosts(val context: Context, val recipePostList: ArrayList<Mod
         for(i in Steps.indices) {
             if (i != 0)
                 steps += "\n"
-            steps += "Step ${i+1}: ${Steps[i]}"
+            steps += "${i+1}. ${Steps[i]}"
         }
 
         holder.rpIngredients.text = ingredients
