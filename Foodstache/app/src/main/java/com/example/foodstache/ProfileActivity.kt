@@ -168,79 +168,80 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun loadPosts() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Data")
-        val query = databaseReference.orderByChild("Time").addValueEventListener(object : ValueEventListener {
+        val query = databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 postList.clear()
-                for(ds1 in snapshot.children) {
-                    for (ds in ds1.children) {
-                        val userID = ds.child("userID").value.toString()
-                        if (userID == uid) {
-                            when (ds.child("type").value.toString()) {
-                                "image" -> {
-                                    val modelPost = ModelPostInProfile(
-                                        userID,
-                                        ds.child("Time").value.toString(),
-                                        ds.child("Username").value.toString(),
-                                        ds.child("userPP").value.toString(),
-                                        ds.child("description").value.toString(),
-                                        ds.child("Image").value.toString(),
-                                        "noVideo",
-                                        "",
-                                        null,
-                                        null
-                                    )
-                                    postList.add(modelPost)
-                                    adapterPostInProfile =
-                                        AdapterPostInProfile(this@ProfileActivity, postList)
-                                    recyclerViewPosts.adapter = adapterPostInProfile
+                val child: MutableList<DataSnapshot> = mutableListOf()
+                snapshot.children.forEach { x -> x.children.forEach { e -> if(e.child("userID").value.toString() == uid) { child.add(e) } } }
+                child.sortBy { it.child("Time").value.toString().toLong() }
+                for (ds in child) {
+                    val userID = ds.child("userID").value.toString()
+                    if (userID == uid) {
+                        when (ds.child("type").value.toString()) {
+                            "image" -> {
+                                val modelPost = ModelPostInProfile(
+                                    userID,
+                                    ds.child("Time").value.toString(),
+                                    ds.child("Username").value.toString(),
+                                    ds.child("userPP").value.toString(),
+                                    ds.child("description").value.toString(),
+                                    ds.child("Image").value.toString(),
+                                    "noVideo",
+                                    "",
+                                    null,
+                                    null
+                                )
+                                postList.add(modelPost)
+                                adapterPostInProfile =
+                                    AdapterPostInProfile(this@ProfileActivity, postList)
+                                recyclerViewPosts.adapter = adapterPostInProfile
+                            }
+                            "video" -> {
+                                val modelPost = ModelPostInProfile(
+                                    userID,
+                                    ds.child("Time").value.toString(),
+                                    ds.child("Username").value.toString(),
+                                    ds.child("userPP").value.toString(),
+                                    ds.child("description").value.toString(),
+                                    "noImage",
+                                    ds.child("Image").value.toString(),
+                                    "",
+                                    null,
+                                    null
+                                )
+                                postList.add(modelPost)
+                                adapterPostInProfile =
+                                    AdapterPostInProfile(this@ProfileActivity, postList)
+                                recyclerViewPosts.adapter = adapterPostInProfile
+                            }
+                            "recipe" -> {
+                                val nbIngredients: Int =
+                                    ds.child("nbIngredients").value.toString().toInt()
+                                val nbSteps: Int = ds.child("nbSteps").value.toString().toInt()
+                                val Ingredients: ArrayList<String> = ArrayList()
+                                val Steps: ArrayList<String> = ArrayList()
+                                for (i in 0 until nbIngredients) {
+                                    Ingredients.add(ds.child("ingredient $i").value.toString())
                                 }
-                                "video" -> {
-                                    val modelPost = ModelPostInProfile(
-                                        userID,
-                                        ds.child("Time").value.toString(),
-                                        ds.child("Username").value.toString(),
-                                        ds.child("userPP").value.toString(),
-                                        ds.child("description").value.toString(),
-                                        "noImage",
-                                        ds.child("Image").value.toString(),
-                                        "",
-                                        null,
-                                        null
-                                    )
-                                    postList.add(modelPost)
-                                    adapterPostInProfile =
-                                        AdapterPostInProfile(this@ProfileActivity, postList)
-                                    recyclerViewPosts.adapter = adapterPostInProfile
+                                for (i in 0 until nbSteps) {
+                                    Steps.add(ds.child("step $i").value.toString())
                                 }
-                                "recipe" -> {
-                                    val nbIngredients: Int =
-                                        ds.child("nbIngredients").value.toString().toInt()
-                                    val nbSteps: Int = ds.child("nbSteps").value.toString().toInt()
-                                    val Ingredients: ArrayList<String> = ArrayList()
-                                    val Steps: ArrayList<String> = ArrayList()
-                                    for (i in 0 until nbIngredients) {
-                                        Ingredients.add(ds.child("ingredient $i").value.toString())
-                                    }
-                                    for (i in 0 until nbSteps) {
-                                        Steps.add(ds.child("step $i").value.toString())
-                                    }
-                                    val modelPost = ModelPostInProfile(
-                                        userID,
-                                        ds.child("Time").value.toString(),
-                                        ds.child("Username").value.toString(),
-                                        ds.child("userPP").value.toString(),
-                                        "",
-                                        "noImage",
-                                        "noVideo",
-                                        ds.child("title").value.toString(),
-                                        Ingredients,
-                                        Steps
-                                    )
-                                    postList.add(modelPost)
-                                    adapterPostInProfile =
-                                        AdapterPostInProfile(this@ProfileActivity, postList)
-                                    recyclerViewPosts.adapter = adapterPostInProfile
-                                }
+                                val modelPost = ModelPostInProfile(
+                                    userID,
+                                    ds.child("Time").value.toString(),
+                                    ds.child("Username").value.toString(),
+                                    ds.child("userPP").value.toString(),
+                                    "",
+                                    "noImage",
+                                    "noVideo",
+                                    ds.child("title").value.toString(),
+                                    Ingredients,
+                                    Steps
+                                )
+                                postList.add(modelPost)
+                                adapterPostInProfile =
+                                    AdapterPostInProfile(this@ProfileActivity, postList)
+                                recyclerViewPosts.adapter = adapterPostInProfile
                             }
                         }
                     }
