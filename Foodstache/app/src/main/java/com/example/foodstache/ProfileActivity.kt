@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -42,6 +43,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var nbFollowersTv : TextView
     private lateinit var nbFollowingTv : TextView
     private lateinit var mAvatarView : ImageView
+    private lateinit var mFollowBtn : Button
 
     private lateinit var recyclerViewPosts: RecyclerView
     private lateinit var postList: ArrayList<ModelPostInProfile>
@@ -70,12 +72,7 @@ class ProfileActivity : AppCompatActivity() {
         nbFollowersTv = findViewById(R.id.total_followers)
         nbFollowingTv = findViewById(R.id.total_following)
         mAvatarView = findViewById(R.id.profile_image)
-
-        settingsBtn.setOnClickListener {
-            // start LoginActivity
-            startActivity(Intent(this@ProfileActivity, SettingActivity::class.java))
-            finish()
-        }
+        mFollowBtn = findViewById(R.id.ProfileFollowBtn)
 
         backBtn.setOnClickListener {
             // start LoginActivity
@@ -102,10 +99,131 @@ class ProfileActivity : AppCompatActivity() {
             // set user info
             user = _user
             val _uid = intent.getStringExtra("UID")
-            if (_uid == null)
+            if (_uid == null || _uid == user.uid) {
                 uid = user.uid
-            else
+                mFollowBtn.visibility = View.GONE
+                settingsBtn.setOnClickListener {
+                    // start LoginActivity
+                    startActivity(Intent(this@ProfileActivity, SettingActivity::class.java))
+                    finish()
+                }
+            }
+            else {
                 uid = _uid
+                settingsBtn.visibility = View.GONE
+
+                val followRef = user.uid.let { it ->
+                    FirebaseDatabase.getInstance().reference.child("Follow").child(it.toString())
+                        .child("Following")
+                }
+                followRef.addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.child(uid).exists()){
+                            mFollowBtn.text = "Following"
+                        }
+                        else{
+                            mFollowBtn.text = "Follow"
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+
+                mFollowBtn.setOnClickListener {
+                    if (mFollowBtn.text.toString()== "Follow"){
+                        user.uid.let { it->
+                            FirebaseDatabase.getInstance().reference.child("Follow").child(it.toString())
+                                .child("Following").child(uid)
+                                .setValue(true).addOnCompleteListener { task ->
+                                    if (task.isSuccessful){
+                                        user.uid.let { it->
+                                            FirebaseDatabase.getInstance().reference.child("Follow").child(uid)
+                                                .child("Followers").child(it.toString())
+                                                .setValue(true).addOnCompleteListener { task ->
+                                                    if (task.isSuccessful){}
+                                                }
+                                        }
+                                    }
+                                }
+
+                        }
+                        val followRef = user.uid.let { it ->
+                            FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
+                                .child("nbFollowers")
+                        }
+                        followRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val nbFollowers = snapshot.value.toString().toInt()
+                                val newValueInt = nbFollowers+1
+                                val newNbFollowers = newValueInt.toString()
+                                FirebaseDatabase.getInstance().reference.child("Users").child(user.uid).child("nbFollowers").setValue(newNbFollowers)
+
+                                FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                                    .child("nbFollowing")
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        val nbFollowing = snapshot.value.toString().toInt()
+                                        val newNbFollowing = nbFollowing + 1
+                                        FirebaseDatabase.getInstance().reference.child("Users").child(uid).child("nbFollowing").setValue(newNbFollowing.toString())
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {}
+                        })
+                    }
+                    else{
+                        user.uid.let { it->
+                            FirebaseDatabase.getInstance().reference.child("Follow").child(it.toString())
+                                .child("Following").child(uid)
+                                .removeValue().addOnCompleteListener { task ->
+                                    if (task.isSuccessful){
+                                        user.uid.let { it->
+                                            FirebaseDatabase.getInstance().reference.child("Follow").child(uid)
+                                                .child("Followers").child(it.toString())
+                                                .removeValue().addOnCompleteListener { task ->
+                                                    if (task.isSuccessful){
+                                                    }
+                                                }
+                                        }
+                                    }
+                                }
+                        }
+                        val followRef = user.uid.let { it ->
+                            FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
+                                .child("nbFollowers")
+                        }
+                        followRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val nbFollowers = snapshot.value.toString().toInt()
+                                val newValueInt = nbFollowers - 1
+                                val newNbFollowers = newValueInt.toString()
+                                FirebaseDatabase.getInstance().reference.child("Users")
+                                    .child(user.uid).child("nbFollowers").setValue(newNbFollowers)
+
+                                FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                                    .child("nbFollowing")
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            val nbFollowing = snapshot.value.toString().toInt()
+                                            val newNbFollowing = nbFollowing - 1
+                                            FirebaseDatabase.getInstance().reference.child("Users")
+                                                .child(uid).child("nbFollowing")
+                                                .setValue(newNbFollowing.toString())
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {}
+                                    })
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {}
+                        })
+                    }
+                }
+            }
         }
 
         postList = ArrayList()

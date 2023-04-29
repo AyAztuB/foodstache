@@ -108,13 +108,9 @@ class SettingActivity : AppCompatActivity() {
         }
 
         pseudoTv = findViewById(R.id.pseudo)
-        val query = FirebaseDatabase.getInstance().getReference("Users").equalTo(firebaseAuth.currentUser!!.uid)
-        query.addValueEventListener(object : ValueEventListener{
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.currentUser!!.uid).child("username").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (ds in snapshot.children) {
-                    pseudoTv.text = ds.child("username").value.toString()
-                    break
-                }
+                pseudoTv.text = snapshot.value.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {}
