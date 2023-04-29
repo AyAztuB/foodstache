@@ -49,6 +49,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var postList: ArrayList<ModelPostInProfile>
     private lateinit var adapterPostInProfile: AdapterPostInProfile
 
+    private val TAG = "Profile"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -60,7 +61,9 @@ class ProfileActivity : AppCompatActivity() {
         */
 
         // init
-        firebaseAuth = FirebaseAuth.getInstance()
+
+
+
 
         // init views
         settingsBtn = findViewById(R.id.options_btn)

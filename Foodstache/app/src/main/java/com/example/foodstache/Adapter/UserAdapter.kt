@@ -76,12 +76,9 @@ class UserAdapter (private var mContext : Context,
                followRef.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val nbFollowers = snapshot.value.toString().toInt()
-                        Log.v(TAG, "nombre follow avant : " + nbFollowers)
                         val newValueInt = nbFollowers+1
                         val newNbFollowers = newValueInt.toString()
-                        Log.v(TAG, "nombre follow après : " + newNbFollowers)
                         val usercurrent = firebaseUser?.uid
-                        Log.v(TAG, "Current user : " + usercurrent.toString() + "Current user id : " + usercurrent)
                         if (usercurrent != null) {
                             FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
                         }
@@ -124,12 +121,9 @@ class UserAdapter (private var mContext : Context,
                 followRef.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val nbFollowers = snapshot.value.toString().toInt()
-                        Log.v(TAG, "nombre follow avant : " + nbFollowers)
                         val newValueInt = nbFollowers-1
                         val newNbFollowers = newValueInt.toString()
-                        Log.v(TAG, "nombre follow après : " + newNbFollowers)
                         val usercurrent = firebaseUser?.uid
-                        Log.v(TAG, "Current user : " + usercurrent.toString() + "Current user id : " + usercurrent)
                         if (usercurrent != null) {
                             FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
                         }
