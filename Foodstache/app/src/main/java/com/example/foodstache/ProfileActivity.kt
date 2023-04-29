@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -47,6 +48,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var postList: ArrayList<ModelPostInProfile>
     private lateinit var adapterPostInProfile: AdapterPostInProfile
 
+    private val TAG = "Profile"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -58,7 +60,9 @@ class ProfileActivity : AppCompatActivity() {
         */
 
         // init
-        firebaseAuth = FirebaseAuth.getInstance()
+
+
+
 
         // init views
         settingsBtn = findViewById(R.id.options_btn)
@@ -70,6 +74,18 @@ class ProfileActivity : AppCompatActivity() {
         nbFollowersTv = findViewById(R.id.total_followers)
         nbFollowingTv = findViewById(R.id.total_following)
         mAvatarView = findViewById(R.id.profile_image)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        val current_user = FirebaseAuth.getInstance().currentUser!!
+        val _uid = intent.getStringExtra("UID")
+        Log.v(TAG, "profile user =" + _uid);
+
+        if(_uid == null){
+            settingsBtn.visibility= View.VISIBLE
+        }
+        else if(current_user.uid != _uid){
+            settingsBtn.visibility= View.INVISIBLE
+        }
 
         settingsBtn.setOnClickListener {
             // start LoginActivity
