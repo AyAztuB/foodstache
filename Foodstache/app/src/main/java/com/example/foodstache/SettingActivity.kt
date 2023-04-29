@@ -20,6 +20,10 @@ import androidx.appcompat.widget.SwitchCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.core.Context
 import com.google.firebase.ktx.Firebase
 
@@ -31,6 +35,7 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var Switch: Switch
     private lateinit var notification: Switch
+    private lateinit var pseudoTv : TextView
 
 
     @SuppressLint("MissingInflatedId")
@@ -101,6 +106,19 @@ class SettingActivity : AppCompatActivity() {
             val intent=Intent(this, ChatActivity::class.java)
             intent.putExtra("notif_activated", notif_activated)
         }
+
+        pseudoTv = findViewById(R.id.pseudo)
+        val query = FirebaseDatabase.getInstance().getReference("Users").equalTo(firebaseAuth.currentUser!!.uid)
+        query.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (ds in snapshot.children) {
+                    pseudoTv.text = ds.child("username").value.toString()
+                    break
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
 }

@@ -232,7 +232,6 @@
 
             </LinearLayout>
 
-            <!-- maybe to remove ?! -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -241,30 +240,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp">
 
-                <ImageButton
-                    android:id="@+id/image_grid_btn"
-                    android:layout_width="1dp"
-                    android:layout_height="40dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/grid"
-                    android:layout_weight="1"
-                    style="?android:attr/buttonBarButtonStyle">
-
-                </ImageButton>
-
-                <ImageButton
-                    android:id="@+id/image_save_btn"
-                    android:layout_width="1dp"
-                    android:layout_height="40dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/save"
-                    android:layout_weight="1"
-                    style="?android:attr/buttonBarButtonStyle">
-
-                </ImageButton>
+                <!-- TODO: ADD FOLLOW/FOLLOWING BTN -->
 
             </LinearLayout>
-            <!-- end maybe to remove ?! -->
             
         </LinearLayout>
 
