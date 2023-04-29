@@ -61,7 +61,7 @@ class ProfileActivity : AppCompatActivity() {
         */
 
         // init
-
+        firebaseAuth = FirebaseAuth.getInstance()
 
 
 
