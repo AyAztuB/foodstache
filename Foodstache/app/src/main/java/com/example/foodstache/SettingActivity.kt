@@ -34,7 +34,6 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var mLogoutBtn : RelativeLayout
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var Switch: Switch
-    private lateinit var notification: Switch
     private lateinit var pseudoTv : TextView
 
 
@@ -77,7 +76,6 @@ class SettingActivity : AppCompatActivity() {
 
         // Dark Mode
         Switch = findViewById<Switch>(R.id.Switchbtn)
-        notification=findViewById(R.id.notifbtn)
 
         // To know if the user's phone is in dark mode then enable the switch
         Switch.isChecked = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -94,17 +92,6 @@ class SettingActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 Switch.text = "Light Mode"
             }
-        }
-        notification.setOnCheckedChangeListener{_,isChecked->
-            var notif_activated:Int=1
-            if(notification.isChecked){
-                notif_activated=1
-            }
-            else{
-                notif_activated=0
-            }
-            val intent=Intent(this, ChatActivity::class.java)
-            intent.putExtra("notif_activated", notif_activated)
         }
 
         pseudoTv = findViewById(R.id.pseudo)
