@@ -80,12 +80,12 @@ class UserAdapter (private var mContext : Context,
                         val newNbFollowers = newValueInt.toString()
                         val usercurrent = firebaseUser?.uid
                         if (usercurrent != null) {
-                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
+                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowing").setValue(newNbFollowers)
                         }
 
                         val nbFollowing = user.getNbFollowing().toInt()
                         val newNbFollowing = nbFollowing + 1
-                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowing").setValue(newNbFollowing.toString())
+                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowers").setValue(newNbFollowing.toString())
 
 
                     }
@@ -125,11 +125,11 @@ class UserAdapter (private var mContext : Context,
                         val newNbFollowers = newValueInt.toString()
                         val usercurrent = firebaseUser?.uid
                         if (usercurrent != null) {
-                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowers").setValue(newNbFollowers)
+                            FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowing").setValue(newNbFollowers)
                         }
                         val nbFollowing = user.getNbFollowing().toInt()
                         val newNbFollowing = nbFollowing - 1
-                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowing").setValue(newNbFollowing.toString())
+                        FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowers").setValue(newNbFollowing.toString())
 
 
                     }
