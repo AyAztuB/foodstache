@@ -71,7 +71,7 @@ class UserAdapter (private var mContext : Context,
                 }
                 val followRef = firebaseUser?.uid.let { it ->
                     FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
-                        .child("nbFollowers")
+                        .child("nbFollowing")
                 }
                followRef.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -83,7 +83,7 @@ class UserAdapter (private var mContext : Context,
                             FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowing").setValue(newNbFollowers)
                         }
 
-                        val nbFollowing = user.getNbFollowing().toInt()
+                        val nbFollowing = user.getNbFollowers().toInt()
                         val newNbFollowing = nbFollowing + 1
                         FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowers").setValue(newNbFollowing.toString())
 
@@ -116,7 +116,7 @@ class UserAdapter (private var mContext : Context,
                 }
                 val followRef = firebaseUser?.uid.let { it ->
                     FirebaseDatabase.getInstance().reference.child("Users").child(it.toString())
-                        .child("nbFollowers")
+                        .child("nbFollowing")
                 }
                 followRef.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -127,7 +127,7 @@ class UserAdapter (private var mContext : Context,
                         if (usercurrent != null) {
                             FirebaseDatabase.getInstance().reference.child("Users").child(usercurrent).child("nbFollowing").setValue(newNbFollowers)
                         }
-                        val nbFollowing = user.getNbFollowing().toInt()
+                        val nbFollowing = user.getNbFollowers().toInt()
                         val newNbFollowing = nbFollowing - 1
                         FirebaseDatabase.getInstance().reference.child("Users").child(user.getUid()).child("nbFollowers").setValue(newNbFollowing.toString())
 
